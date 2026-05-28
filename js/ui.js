@@ -112,7 +112,14 @@ const UI = {
                             cellEl.innerText = ''; // Esvazia o texto para usar o pseudo-elemento ::before no CSS
                         }
                         else if (cellData.value === '÷' || cellData.value === '/') cellEl.classList.add('op-div');
-                        else if (cellData.value === '^') cellEl.classList.add('op-pow');
+                        else if (cellData.value === '^') {
+                            cellEl.classList.add('op-pow');
+                            if (difficulty === 'hardest') {
+                                cellEl.innerText = '^3';
+                            } else {
+                                cellEl.innerText = '^2';
+                            }
+                        }
                         else if (cellData.value === '√') {
                             cellEl.classList.add('op-sqrt');
                         }

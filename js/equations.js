@@ -43,17 +43,18 @@ const Equations = {
             if (hasDivisor) ops.push('÷');
         }
         if (difficulty === 'hard' || difficulty === 'hardest') {
-            // Potenciação (^)
-            // No difícil, valor máximo 20 (20^2 = 400). No dificílimo, valor máximo 8 (8^3 = 512) para evitar extrapolação
-            const maxValForPow = difficulty === 'hard' ? 20 : 8;
-            if (currentValue > 1 && currentValue <= maxValForPow) ops.push('^');
-            
-            // Radiciação (√) - Sempre raiz quadrada para ser amigável!
+            // Radiciação (√) — raiz quadrada em ambos os níveis difíceis
             if (currentValue > 1 && Math.sqrt(currentValue) % 1 === 0) {
                 ops.push('√');
             }
         }
+        if (difficulty === 'hard') {
+            // Potenciação (^2) — valor máximo 20 para 20^2 = 400
+            if (currentValue > 1 && currentValue <= 20) ops.push('^');
+        }
         if (difficulty === 'hardest') {
+            // Potenciação (^3) — valor máximo 8 para 8^3 = 512
+            if (currentValue > 1 && currentValue <= 8) ops.push('^');
             // Porcentagem (%)
             if (this.getValidPercentages(currentValue).length > 0) {
                 ops.push('%');
