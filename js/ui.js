@@ -85,10 +85,25 @@ const UI = {
     renderMaze(mazeData, rows, cols, difficulty) {
         this.container.innerHTML = '';
         
+        // Determina o tamanho ideal da célula para caber perfeitamente na tela
+        const maxGridWidth = Math.min(window.innerWidth - 40, 500); // 40px margem, máx 500px largura
+        const maxGridHeight = window.innerHeight - 280; // 280px para o HUD, título, e controles inferiores
+
+        const totalGapsWidth = (cols - 1) * 4;
+        const totalGapsHeight = (rows - 1) * 4;
+
+        const cellSizeWidth = Math.floor((maxGridWidth - 20 - totalGapsWidth) / cols);
+        const cellSizeHeight = Math.floor((maxGridHeight - 20 - totalGapsHeight) / rows);
+
+        // O tamanho da célula ideal será o menor dos dois, limitado entre 28px e 50px
+        const cellSize = Math.max(28, Math.min(50, cellSizeWidth, cellSizeHeight));
+        this.cellSize = cellSize;
+
         const gridEl = document.createElement('div');
         gridEl.className = 'maze-grid';
-        gridEl.style.gridTemplateColumns = `repeat(${cols}, 50px)`;
-        gridEl.style.gridTemplateRows = `repeat(${rows}, 50px)`;
+        gridEl.style.setProperty('--cell-size', `${cellSize}px`);
+        gridEl.style.gridTemplateColumns = `repeat(${cols}, ${cellSize}px)`;
+        gridEl.style.gridTemplateRows = `repeat(${rows}, ${cellSize}px)`;
 
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
@@ -100,7 +115,7 @@ const UI = {
                 // Renderiza o valor apropriado na célula
                 if (cellData.value !== null) {
                     if (cellData.type === 'end') {
-                        cellEl.innerHTML = `<span style="font-size:1.1rem; font-weight:900;">🏆${cellData.value}</span>`;
+                        cellEl.innerHTML = `<span class="trophy-text">🏆${cellData.value}</span>`;
                     } else if (cellData.type === 'start') {
                         cellEl.innerText = cellData.value;
                     } else if (cellData.type === 'operator') {
@@ -168,8 +183,12 @@ const UI = {
 
     updatePlayerPosition(r, c) {
         if (!this.playerEl) return;
-        this.playerEl.style.top = `${r * 54 + 15}px`; // 50px cell + 4px gap + grid padding (10px) + centering offset (5px)
-        this.playerEl.style.left = `${c * 54 + 15}px`;
+        const cellSize = this.cellSize || 50;
+        const gap = 4;
+        const padding = 10;
+        const offset = padding + (cellSize * 0.1); 
+        this.playerEl.style.top = `${r * (cellSize + gap) + offset}px`;
+        this.playerEl.style.left = `${c * (cellSize + gap) + offset}px`;
         
         // Marcar trilha
         const cell = document.getElementById(`cell-${r}-${c}`);

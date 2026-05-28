@@ -295,12 +295,13 @@ h1 {
 }
 
 .maze-grid {
+    --cell-size: 50px;
     display: grid;
     /* grid-template-columns e rows serão setados inline */
     gap: 4px;
     background: var(--border-wall);
     padding: 10px;
-    border-radius: 30px;
+    border-radius: 20px;
     box-shadow: 0 0 40px rgba(0, 212, 255, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.8);
     position: relative;
 }
@@ -312,7 +313,7 @@ h1 {
     align-items: center;
     transition: background-color 0.3s, box-shadow 0.3s;
     font-family: var(--font-math);
-    font-size: 1.1rem;
+    font-size: calc(var(--cell-size) * 0.34);
     font-weight: 900;
 }
 
@@ -356,14 +357,14 @@ h1 {
     transform: rotate(-45deg);
     display: inline-block;
     font-weight: 900;
-    font-size: 1.1rem;
+    font-size: calc(var(--cell-size) * 0.34);
 }
 
 /* 🟡 Divisão (/): Cápsula/Elipse Neon Amarelo */
 .cell.operator.op-div {
     background: rgba(255, 217, 61, 0.1);
     border: 2px solid var(--text-yellow);
-    border-radius: 16px / 8px;
+    border-radius: calc(var(--cell-size) * 0.32) / calc(var(--cell-size) * 0.16);
     color: var(--text-yellow);
     text-shadow: 0 0 8px var(--text-yellow);
     box-shadow: 0 0 10px rgba(255, 217, 61, 0.3), inset 0 0 6px rgba(255, 217, 61, 0.2);
@@ -431,8 +432,8 @@ h1 {
 /* Player — Foguete (padrão) */
 #player {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: calc(var(--cell-size) * 0.8);
+    height: calc(var(--cell-size) * 0.8);
     background: radial-gradient(circle, rgba(255, 217, 61, 0.25) 0%, rgba(255, 180, 0, 0.05) 100%);
     border: 2px solid var(--text-yellow);
     border-radius: 50%;
@@ -442,7 +443,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: calc(var(--cell-size) * 0.55);
     animation: pulseRocket 1.8s infinite ease-in-out;
 }
 
@@ -458,7 +459,7 @@ h1 {
     border: 2px solid #c060ff;
     border-radius: 10px 10px 5px 5px; /* Forma levemente diferente: quadrado com topo arredondado */
     box-shadow: 0 0 18px #c060ff, 0 0 35px rgba(180, 60, 255, 0.35);
-    font-size: 1.6rem;
+    font-size: calc(var(--cell-size) * 0.55);
     animation: pulseKnight 1.8s infinite ease-in-out;
 }
 
@@ -593,11 +594,11 @@ h1 {
 /* Caminhos/Pontes de conexão entre células */
 .connector-h {
     position: absolute;
-    right: -6px;
+    right: calc(var(--cell-size) * -0.12);
     top: 50%;
     transform: translateY(-50%);
-    width: 8px;
-    height: 14px;
+    width: calc(var(--cell-size) * 0.16);
+    height: calc(var(--cell-size) * 0.28);
     background: rgba(0, 212, 255, 0.2);
     border-top: 1px solid rgba(0, 212, 255, 0.4);
     border-bottom: 1px solid rgba(0, 212, 255, 0.4);
@@ -607,11 +608,11 @@ h1 {
 
 .connector-v {
     position: absolute;
-    bottom: -6px;
+    bottom: calc(var(--cell-size) * -0.12);
     left: 50%;
     transform: translateX(-50%);
-    width: 14px;
-    height: 8px;
+    width: calc(var(--cell-size) * 0.28);
+    height: calc(var(--cell-size) * 0.16);
     background: rgba(0, 212, 255, 0.2);
     border-left: 1px solid rgba(0, 212, 255, 0.4);
     border-right: 1px solid rgba(0, 212, 255, 0.4);
@@ -630,4 +631,9 @@ h1 {
 
 .shake {
     animation: shake 0.3s ease-in-out;
+}
+
+.trophy-text {
+    font-size: calc(var(--cell-size) * 0.34);
+    font-weight: 900;
 }
