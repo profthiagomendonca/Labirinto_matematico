@@ -115,9 +115,9 @@ const UI = {
                         else if (cellData.value === '^') {
                             cellEl.classList.add('op-pow');
                             if (difficulty === 'hardest') {
-                                cellEl.innerText = 'x³';
+                                cellEl.innerText = '^3';
                             } else {
-                                cellEl.innerText = 'x²';
+                                cellEl.innerText = '^2';
                             }
                         }
                         else if (cellData.value === '√') {
@@ -220,8 +220,8 @@ const UI = {
             this.eqVal2.innerText = val1;
         } else if (op === '^') {
             this.eqVal1.innerText = val1;
-            this.eqOp.innerText = '';
-            this.eqVal2.innerText = val2 === 3 ? '³' : '²';
+            this.eqOp.innerText = '^';
+            this.eqVal2.innerText = val2;
         } else if (op === '%') {
             this.eqVal1.innerText = val2 + '%';
             this.eqOp.innerText = ' de ';
