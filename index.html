@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labirinto Matemático</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        
+        <!-- Tela Inicial -->
+        <div id="start-screen" class="screen active">
+            <h1>Labirinto Matemático</h1>
+            <p>Escolha o valor inicial do jogo:</p>
+            <div class="input-group">
+                <button id="btn-decrease">-</button>
+                <input type="number" id="input-start-value" value="12" min="1" max="99">
+                <button id="btn-increase">+</button>
+            </div>
+            
+            <p>Dificuldade:</p>
+            <div class="difficulty-selector">
+                <button class="diff-btn active" data-level="easy">🟢 Fácil</button>
+                <button class="diff-btn" data-level="medium">🟡 Médio</button>
+                <button class="diff-btn" data-level="hard">🔴 Difícil</button>
+            </div>
+            
+            <p>Escolha o símbolo do jogador:</p>
+            <div class="piece-selector">
+                <label><input type="radio" name="piece" value="🚀" checked> 🚀 Foguete</label>
+                <label><input type="radio" name="piece" value="♞"> ♞ Cavalo (Xadrez)</label>
+            </div>
+            
+            <button id="btn-start" class="primary-button">▶ INICIAR JOGO</button>
+        </div>
+
+        <!-- Tela do Jogo -->
+        <div id="play-screen" class="screen">
+            <header class="hud">
+                <div class="hud-item" title="Número Inicial">
+                    <span>🟢 Início:</span>
+                    <span id="hud-start" class="hud-value">12</span>
+                </div>
+                <div class="hud-item highlight" title="Seu valor acumulado atual">
+                    <span>⚡ Atual:</span>
+                    <span id="hud-current" class="hud-value pulse">12</span>
+                </div>
+                <div class="hud-item" title="O valor que você deve atingir na saída">
+                    <span>🏆 Alvo:</span>
+                    <span id="hud-target" class="hud-value">48</span>
+                </div>
+                <div class="hud-item time-display">
+                    <span>⏱</span>
+                    <span id="hud-time">00:00</span>
+                </div>
+            </header>
+            
+            <div id="maze-container">
+                <!-- O labirinto será renderizado aqui pelo JS -->
+            </div>
+            
+            <!-- Modal de Cálculo Matemático -->
+            <div id="math-modal" class="modal-overlay">
+                <div class="modal-content">
+                    <h3 class="modal-title">🚀 CALCULE A ROTA!</h3>
+                    <div class="equation-display">
+                        <span id="eq-val1" class="eq-term">12</span>
+                        <span id="eq-op" class="eq-term neon-text-blue">+</span>
+                        <span id="eq-val2" class="eq-term">3</span>
+                        <span class="eq-term">=</span>
+                        <input type="number" id="eq-answer" class="eq-input" placeholder="?" autocomplete="off" autofocus>
+                    </div>
+                    <button id="btn-submit-answer" class="primary-button modal-btn">CONFIRMAR</button>
+                </div>
+            </div>
+            
+            <div class="controls-hint">Use as setas do teclado (ou deslize no celular) para mover</div>
+        </div>
+
+        <!-- Tela de Fim de Jogo -->
+        <div id="end-screen" class="screen">
+            <h1 id="end-title">🏆 Vitória! 🏆</h1>
+            <p id="end-message">Você encontrou o caminho correto!</p>
+            <div class="stats">
+                <p>Tempo: <span id="end-time">00:00</span></p>
+                <div id="stars-container" class="stars">⭐⭐⭐</div>
+            </div>
+            <button id="btn-restart" class="primary-button">Jogar Novamente</button>
+        </div>
+
+    </div>
+
+    <script src="js/equations.js"></script>
+    <script src="js/maze.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
