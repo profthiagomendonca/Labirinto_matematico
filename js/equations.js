@@ -50,15 +50,15 @@ const Equations = {
             }
         }
         if (difficulty === 'hard') {
-            // Potenciação (^2) — valor máximo 20 para 20^2 = 400
-            if (currentValue > 1 && currentValue <= 20) ops.push('^');
+            // Potenciação (^2) — valor máximo 25 para 25^2 = 625
+            if (currentValue > 1 && currentValue <= 25) ops.push('^', '^');
         }
         if (difficulty === 'hardest') {
-            // Potenciação (^3) — valor máximo 15 para 15^3 = 3375
-            if (currentValue > 1 && currentValue <= 15) ops.push('^');
+            // Potenciação (^3) — aumenta significativamente a chance de aparecer
+            if (currentValue > 1 && currentValue <= 30) ops.push('^', '^', '^');
             // Porcentagem (%)
             if (this.getValidPercentages(currentValue).length > 0) {
-                ops.push('%');
+                ops.push('%', '%');
             }
         }
         return ops[Math.floor(Math.random() * ops.length)];
