@@ -115,9 +115,9 @@ const UI = {
                         else if (cellData.value === '^') {
                             cellEl.classList.add('op-pow');
                             if (difficulty === 'hardest') {
-                                cellEl.innerText = '^3';
+                                cellEl.innerText = 'x³';
                             } else {
-                                cellEl.innerText = '^2';
+                                cellEl.innerText = 'x²';
                             }
                         }
                         else if (cellData.value === '√') {

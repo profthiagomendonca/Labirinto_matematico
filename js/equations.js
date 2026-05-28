@@ -43,9 +43,10 @@ const Equations = {
             if (hasDivisor) ops.push('÷');
         }
         if (difficulty === 'hard' || difficulty === 'hardest') {
-            // Radiciação (√) — raiz quadrada em ambos os níveis difíceis
-            if (currentValue > 1 && Math.sqrt(currentValue) % 1 === 0) {
-                ops.push('√');
+            // Radiciação (√) — raiz quadrada e/ou cúbica dependendo do nível
+            if (currentValue > 1) {
+                if (Math.sqrt(currentValue) % 1 === 0) ops.push('√');
+                if (difficulty === 'hardest' && Math.cbrt(currentValue) % 1 === 0) ops.push('√');
             }
         }
         if (difficulty === 'hard') {
@@ -53,8 +54,8 @@ const Equations = {
             if (currentValue > 1 && currentValue <= 20) ops.push('^');
         }
         if (difficulty === 'hardest') {
-            // Potenciação (^3) — valor máximo 8 para 8^3 = 512
-            if (currentValue > 1 && currentValue <= 8) ops.push('^');
+            // Potenciação (^3) — valor máximo 15 para 15^3 = 3375
+            if (currentValue > 1 && currentValue <= 15) ops.push('^');
             // Porcentagem (%)
             if (this.getValidPercentages(currentValue).length > 0) {
                 ops.push('%');
@@ -92,7 +93,11 @@ const Equations = {
             return 2;
         }
         if (op === '√') {
-            return 2; // Sempre raiz quadrada
+            if (difficulty === 'hardest' && Math.cbrt(currentValue) % 1 === 0) {
+                // Se o número for cubo perfeito, pode ser raiz cúbica. Se for quadrado e cubo (ex: 64), prioriza a cúbica no mais difícil
+                return 3;
+            }
+            return 2; // Sempre raiz quadrada por padrão
         }
         if (op === '%') {
             const valids = this.getValidPercentages(currentValue);
