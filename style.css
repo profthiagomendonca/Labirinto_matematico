@@ -462,6 +462,8 @@ h1 {
     border-radius: 10px 10px 5px 5px; /* Forma levemente diferente: quadrado com topo arredondado */
     box-shadow: 0 0 18px #c060ff, 0 0 35px rgba(180, 60, 255, 0.35);
     font-size: 1.6rem;
+    color: #e8c5ff;
+    text-shadow: 0 0 8px #c060ff;
     animation: pulseKnight 1.8s infinite ease-in-out;
 }
 
