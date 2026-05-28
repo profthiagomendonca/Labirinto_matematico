@@ -41,7 +41,7 @@ const MazeGen = {
         generateDFS(0, 0);
 
         // Adiciona ciclos removendo paredes aleatórias para criar caminhos alternativos
-        let extraPaths = difficulty === 'easy' ? 10 : (difficulty === 'medium' ? 24 : (difficulty === 'hard' ? 45 : 70));
+        let extraPaths = difficulty === 'easy' ? 10 : (difficulty === 'medium' ? 24 : (difficulty === 'hard' ? 45 : 50));
         let attempts = 0;
         const oppDir = { 'top': 'bottom', 'bottom': 'top', 'right': 'left', 'left': 'right' };
         

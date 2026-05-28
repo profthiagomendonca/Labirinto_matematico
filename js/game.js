@@ -29,8 +29,7 @@ const Game = {
         
         if (this.difficulty === 'easy') { this.rows = 5; this.cols = 5; }
         else if (this.difficulty === 'medium') { this.rows = 7; this.cols = 7; }
-        else if (this.difficulty === 'hard') { this.rows = 9; this.cols = 9; }
-        else { this.rows = 11; this.cols = 11; } // Dificílimo 11x11 (ímpar)
+        else { this.rows = 9; this.cols = 9; } // Difícil e Dificílimo 9x9 (cabe perfeitamente sem estourar)
 
         const gen = MazeGen.generate(this.rows, this.cols, this.startValue, this.difficulty);
         this.mazeData = gen.grid;
