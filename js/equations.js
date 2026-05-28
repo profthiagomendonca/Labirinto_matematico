@@ -48,13 +48,9 @@ const Equations = {
             const maxValForPow = difficulty === 'hard' ? 20 : 8;
             if (currentValue > 1 && currentValue <= maxValForPow) ops.push('^');
             
-            // Radiciação (√)
-            if (currentValue > 1) {
-                if (difficulty === 'hard' && Math.sqrt(currentValue) % 1 === 0) {
-                    ops.push('√');
-                } else if (difficulty === 'hardest' && Math.cbrt(currentValue) % 1 === 0) {
-                    ops.push('√');
-                }
+            // Radiciação (√) - Sempre raiz quadrada para ser amigável!
+            if (currentValue > 1 && Math.sqrt(currentValue) % 1 === 0) {
+                ops.push('√');
             }
         }
         if (difficulty === 'hardest') {
@@ -95,13 +91,7 @@ const Equations = {
             return 2;
         }
         if (op === '√') {
-            if (difficulty === 'hard') return 2;
-            if (difficulty === 'hardest') return 3;
-            if (Math.cbrt(currentValue) % 1 === 0 && Math.sqrt(currentValue) % 1 === 0) {
-                return Math.random() < 0.5 ? 2 : 3;
-            }
-            if (Math.cbrt(currentValue) % 1 === 0) return 3;
-            return 2;
+            return 2; // Sempre raiz quadrada
         }
         if (op === '%') {
             const valids = this.getValidPercentages(currentValue);

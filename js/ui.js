@@ -115,9 +115,6 @@ const UI = {
                         else if (cellData.value === '^') cellEl.classList.add('op-pow');
                         else if (cellData.value === '√') {
                             cellEl.classList.add('op-sqrt');
-                            if (difficulty === 'hardest') {
-                                cellEl.innerText = '∛';
-                            }
                         }
                         else if (cellData.value === '%') {
                             cellEl.classList.add('op-pct');
