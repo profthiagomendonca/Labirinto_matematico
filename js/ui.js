@@ -126,6 +126,9 @@ const UI = {
                         else if (cellData.value === '%') {
                             cellEl.classList.add('op-pct');
                         }
+                        else if (cellData.value === '=') {
+                            cellEl.classList.add('op-eq');
+                        }
                     } else if (cellData.type === 'number') {
                         cellEl.innerText = cellData.value;
                     }

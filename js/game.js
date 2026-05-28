@@ -156,6 +156,13 @@ const Game = {
         else if (nextCell.type === 'number') {
             const val1 = this.currentValue;
             const op = this.pendingOperator || '+'; // Fallback
+            
+            // Impede tentar fazer conta com o sinal de '=' (que serve apenas para o troféu)
+            if (op === '=') {
+                UI.animateWrongMove();
+                return;
+            }
+
             const val2 = nextCell.value;
             const correctAnswer = Equations.apply(val1, op, val2);
 

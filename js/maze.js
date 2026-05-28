@@ -144,6 +144,15 @@ const MazeGen = {
         // Adiciona Armadilhas nas células de número que não estão no caminho principal
         this.addTraps(grid, rows, cols, difficulty, mainPath);
 
+        // O usuário deu a excelente ideia de usar '=' antes do troféu final
+        // Modifica qualquer operador que tenha acesso direto ao troféu para ser um sinal de igual
+        if (!grid[rows - 1][cols - 1].walls.left) {
+            grid[rows - 1][cols - 2].value = '=';
+        }
+        if (!grid[rows - 1][cols - 1].walls.top) {
+            grid[rows - 2][cols - 1].value = '=';
+        }
+
         return { grid, targetValue };
     },
 
