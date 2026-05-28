@@ -41,7 +41,7 @@ const MazeGen = {
         generateDFS(0, 0);
 
         // Adiciona ciclos removendo paredes aleatórias para criar caminhos alternativos
-        let extraPaths = difficulty === 'easy' ? 10 : (difficulty === 'medium' ? 24 : 45);
+        let extraPaths = difficulty === 'easy' ? 10 : (difficulty === 'medium' ? 24 : (difficulty === 'hard' ? 45 : 70));
         let attempts = 0;
         const oppDir = { 'top': 'bottom', 'bottom': 'top', 'right': 'left', 'left': 'right' };
         
@@ -205,7 +205,8 @@ const MazeGen = {
         let trapTypes = [];
         if (difficulty === 'easy') trapTypes = ['reset'];
         else if (difficulty === 'medium') trapTypes = ['reset', 'inverse'];
-        else trapTypes = ['reset', 'inverse', 'mystery', 'time'];
+        else if (difficulty === 'hard') trapTypes = ['reset', 'inverse', 'mystery', 'time'];
+        else trapTypes = ['reset', 'inverse', 'mystery', 'time', 'reset', 'inverse', 'time'];
 
         let possibleCells = [];
         for (let r = 0; r < rows; r++) {

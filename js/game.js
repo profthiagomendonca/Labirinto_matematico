@@ -29,7 +29,8 @@ const Game = {
         
         if (this.difficulty === 'easy') { this.rows = 5; this.cols = 5; }
         else if (this.difficulty === 'medium') { this.rows = 7; this.cols = 7; }
-        else { this.rows = 9; this.cols = 9; } // Mantém ímpar para a saída ser do tipo número
+        else if (this.difficulty === 'hard') { this.rows = 9; this.cols = 9; }
+        else { this.rows = 11; this.cols = 11; } // Dificílimo 11x11 (ímpar)
 
         const gen = MazeGen.generate(this.rows, this.cols, this.startValue, this.difficulty);
         this.mazeData = gen.grid;
@@ -267,6 +268,7 @@ const Game = {
         if (this.difficulty === 'easy' && this.seconds > 60) stars = 2;
         if (this.difficulty === 'medium' && this.seconds > 120) stars = 2;
         if (this.difficulty === 'hard' && this.seconds > 240) stars = 2;
+        if (this.difficulty === 'hardest' && this.seconds > 360) stars = 2;
         
         UI.showWin(this.formatTime(this.seconds), Math.max(1, stars));
         UI.playWin();

@@ -119,9 +119,24 @@ h1 {
     transition: 0.3s;
 }
 
-.diff-btn.active {
+.diff-btn.active[data-level="easy"] {
     border-color: var(--neon-green);
     box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+}
+
+.diff-btn.active[data-level="medium"] {
+    border-color: var(--text-yellow);
+    box-shadow: 0 0 10px rgba(255, 217, 61, 0.4);
+}
+
+.diff-btn.active[data-level="hard"] {
+    border-color: var(--neon-red);
+    box-shadow: 0 0 10px rgba(255, 68, 102, 0.4);
+}
+
+.diff-btn.active[data-level="hardest"] {
+    border-color: #ff007f;
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
 }
 
 .primary-button {
@@ -372,6 +387,16 @@ h1 {
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     filter: drop-shadow(0 0 3px rgba(255, 68, 102, 0.6));
     border: 2px solid transparent;
+}
+
+/* 💗 Porcentagem (%): Borda Tracejada Neon Rosa */
+.cell.operator.op-pct {
+    background: rgba(255, 0, 127, 0.12);
+    border: 2px dashed #ff007f;
+    border-radius: 50%;
+    color: #ff007f;
+    text-shadow: 0 0 8px #ff007f;
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.3), inset 0 0 6px rgba(255, 0, 127, 0.2);
 }
 
 .cell.number {

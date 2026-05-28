@@ -113,7 +113,15 @@ const UI = {
                         }
                         else if (cellData.value === '÷' || cellData.value === '/') cellEl.classList.add('op-div');
                         else if (cellData.value === '^') cellEl.classList.add('op-pow');
-                        else if (cellData.value === '√') cellEl.classList.add('op-sqrt');
+                        else if (cellData.value === '√') {
+                            cellEl.classList.add('op-sqrt');
+                            if (difficulty === 'hardest') {
+                                cellEl.innerText = '∛';
+                            }
+                        }
+                        else if (cellData.value === '%') {
+                            cellEl.classList.add('op-pct');
+                        }
                     } else if (cellData.type === 'number') {
                         cellEl.innerText = cellData.value;
                     }
@@ -210,6 +218,10 @@ const UI = {
             this.eqVal1.innerText = val1;
             this.eqOp.innerText = '';
             this.eqVal2.innerText = val2 === 3 ? '³' : '²';
+        } else if (op === '%') {
+            this.eqVal1.innerText = val2 + '%';
+            this.eqOp.innerText = ' de ';
+            this.eqVal2.innerText = val1;
         } else {
             this.eqVal1.innerText = val1;
             this.eqOp.innerText = op;

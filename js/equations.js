@@ -14,14 +14,23 @@ const Equations = {
             case '√': 
                 if (num === 3) return Math.cbrt(value);
                 return Math.sqrt(value);
+            case '%': return (value * num) / 100;
             default: return value;
         }
+    },
+
+    // Retorna porcentagens padrão que resultam em valores inteiros para o valor atual
+    getValidPercentages(value) {
+        if (value <= 0) return [];
+        // Porcentagens padrão amigáveis
+        const pctOptions = [10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 150, 200];
+        return pctOptions.filter(p => (value * p) % 100 === 0);
     },
 
     // Retorna um operador válido com base no valor atual e dificuldade
     generateValidOpSymbol(currentValue, difficulty) {
         const ops = ['+', '-'];
-        if (difficulty === 'medium' || difficulty === 'hard') {
+        if (difficulty === 'medium' || difficulty === 'hard' || difficulty === 'hardest') {
             ops.push('×');
             // Só adiciona divisão se o valor atual tiver algum divisor válido além de 1
             let hasDivisor = false;
@@ -33,12 +42,25 @@ const Equations = {
             }
             if (hasDivisor) ops.push('÷');
         }
-        if (difficulty === 'hard') {
+        if (difficulty === 'hard' || difficulty === 'hardest') {
             // Potenciação (^)
-            if (currentValue > 1 && currentValue <= 20) ops.push('^');
+            // No difícil, valor máximo 20 (20^2 = 400). No dificílimo, valor máximo 8 (8^3 = 512) para evitar extrapolação
+            const maxValForPow = difficulty === 'hard' ? 20 : 8;
+            if (currentValue > 1 && currentValue <= maxValForPow) ops.push('^');
+            
             // Radiciação (√)
-            if (currentValue > 1 && (Math.sqrt(currentValue) % 1 === 0 || Math.cbrt(currentValue) % 1 === 0)) {
-                ops.push('√');
+            if (currentValue > 1) {
+                if (difficulty === 'hard' && Math.sqrt(currentValue) % 1 === 0) {
+                    ops.push('√');
+                } else if (difficulty === 'hardest' && Math.cbrt(currentValue) % 1 === 0) {
+                    ops.push('√');
+                }
+            }
+        }
+        if (difficulty === 'hardest') {
+            // Porcentagem (%)
+            if (this.getValidPercentages(currentValue).length > 0) {
+                ops.push('%');
             }
         }
         return ops[Math.floor(Math.random() * ops.length)];
@@ -56,7 +78,7 @@ const Equations = {
         }
         if (op === '×') {
             const maxMult = Math.max(2, Math.floor(200 / currentValue));
-            const multVal = Math.min(maxMult, difficulty === 'medium' ? 5 : 10);
+            const multVal = Math.min(maxMult, difficulty === 'medium' ? 5 : (difficulty === 'hard' ? 10 : 6));
             return multVal > 1 ? Math.floor(Math.random() * (multVal - 1)) + 2 : 2;
         }
         if (op === '÷') {
@@ -67,16 +89,23 @@ const Equations = {
             return divisors.length > 0 ? divisors[Math.floor(Math.random() * divisors.length)] : 1;
         }
         if (op === '^') {
-            // Se o valor for menor ou igual a 4, aceita potência 3 (cubo), senão apenas potência 2 (quadrado)
+            if (difficulty === 'hard') return 2;
+            if (difficulty === 'hardest') return 3;
             if (currentValue <= 4) return Math.random() < 0.5 ? 2 : 3;
             return 2;
         }
         if (op === '√') {
+            if (difficulty === 'hard') return 2;
+            if (difficulty === 'hardest') return 3;
             if (Math.cbrt(currentValue) % 1 === 0 && Math.sqrt(currentValue) % 1 === 0) {
                 return Math.random() < 0.5 ? 2 : 3;
             }
             if (Math.cbrt(currentValue) % 1 === 0) return 3;
             return 2;
+        }
+        if (op === '%') {
+            const valids = this.getValidPercentages(currentValue);
+            return valids.length > 0 ? valids[Math.floor(Math.random() * valids.length)] : 50;
         }
         return 1;
     },
