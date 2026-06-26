@@ -26,6 +26,12 @@ const UI = {
         // Buttons
         document.getElementById('btn-start').addEventListener('click', () => game.start());
         document.getElementById('btn-restart').addEventListener('click', () => game.resetToStart());
+        document.getElementById('btn-back-to-menu').addEventListener('click', () => {
+            this.playBeep(400, 100);
+            if (confirm("Tem certeza que deseja sair do jogo atual e voltar ao menu inicial? Todo o seu progresso será perdido.")) {
+                game.resetToStart();
+            }
+        });
         
         // Difficulty selectors
         document.querySelectorAll('.diff-btn').forEach(btn => {

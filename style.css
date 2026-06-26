@@ -163,6 +163,31 @@ h1 {
     box-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
 }
 
+.secondary-button {
+    background: rgba(255, 68, 102, 0.08);
+    border: 2px solid var(--neon-red);
+    color: var(--neon-red);
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 8px 22px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(255, 68, 102, 0.2);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 15px;
+    outline: none;
+    letter-spacing: 0.5px;
+}
+
+.secondary-button:hover {
+    background: var(--neon-red);
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 68, 102, 0.6);
+    transform: scale(1.05);
+}
+
 /* Play Screen (HUD) */
 .hud {
     display: flex;
