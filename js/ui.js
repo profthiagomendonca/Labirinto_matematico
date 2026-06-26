@@ -81,10 +81,15 @@ const UI = {
         document.getElementById(screenId).classList.add('active');
     },
 
+    formatValue(val) {
+        if (val === null || val === undefined) return '';
+        return val.toString().replace(/\./g, ',');
+    },
+
     updateHUD(start, current, target, timeStr) {
-        document.getElementById('hud-start').innerText = start;
-        document.getElementById('hud-current').innerText = current;
-        document.getElementById('hud-target').innerText = target;
+        document.getElementById('hud-start').innerText = this.formatValue(start);
+        document.getElementById('hud-current').innerText = this.formatValue(current);
+        document.getElementById('hud-target').innerText = this.formatValue(target);
         if (timeStr) document.getElementById('hud-time').innerText = timeStr;
     },
 
@@ -114,7 +119,24 @@ const UI = {
                 // Renderiza o valor apropriado na célula
                 if (cellData.value !== null) {
                     if (cellData.type === 'end') {
-                        cellEl.innerHTML = `<span style="font-size: calc(var(--cell-size) * 0.32); font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; width: 100%; height: 100%;"><span>🏆</span><span style="font-size: calc(var(--cell-size) * 0.28); color: var(--neon-green); text-shadow: 0 0 5px var(--neon-green);">${cellData.value}</span></span>`;
+                        const valStr = this.formatValue(cellData.value);
+                        const isHard = difficulty === 'hard' || difficulty === 'hardest';
+                        
+                        let scale = 0.28;
+                        if (isHard) {
+                            if (valStr.length > 4) scale = 0.15;
+                            else if (valStr.length > 2) scale = 0.19;
+                            else scale = 0.24;
+                        } else {
+                            if (valStr.length > 4) scale = 0.18;
+                            else if (valStr.length > 2) scale = 0.22;
+                        }
+                        
+                        const trophyScale = isHard ? 0.26 : 0.32;
+                        const lineSp = isHard ? '1.0' : '1.1';
+                        const fontFamily = isHard ? 'var(--font-ui), sans-serif' : 'var(--font-math), monospace';
+                        
+                        cellEl.innerHTML = `<span style="font-size: calc(var(--cell-size) * ${trophyScale}); font-weight: 700; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: ${lineSp}; width: 100%; height: 100%; font-family: ${fontFamily}; overflow: hidden; white-space: nowrap;"><span>🏆</span><span style="font-size: calc(var(--cell-size) * ${scale}); font-weight: 900; color: var(--neon-green); text-shadow: 0 0 3px var(--neon-green);">${valStr}</span></span>`;
                     } else if (cellData.type === 'start') {
                         cellEl.innerText = cellData.value;
                     } else if (cellData.type === 'operator') {
@@ -246,19 +268,19 @@ const UI = {
         if (op === '√') {
             this.eqVal1.innerText = '';
             this.eqOp.innerText = val2 === 3 ? '∛' : '√';
-            this.eqVal2.innerText = val1;
+            this.eqVal2.innerText = this.formatValue(val1);
         } else if (op === '^') {
-            this.eqVal1.innerText = val1;
+            this.eqVal1.innerText = this.formatValue(val1);
             this.eqOp.innerText = '^';
-            this.eqVal2.innerText = val2;
+            this.eqVal2.innerText = this.formatValue(val2);
         } else if (op === '%') {
-            this.eqVal1.innerText = val2 + '%';
+            this.eqVal1.innerText = this.formatValue(val2) + '%';
             this.eqOp.innerText = ' de ';
-            this.eqVal2.innerText = val1;
+            this.eqVal2.innerText = this.formatValue(val1);
         } else {
-            this.eqVal1.innerText = val1;
+            this.eqVal1.innerText = this.formatValue(val1);
             this.eqOp.innerText = op;
-            this.eqVal2.innerText = val2;
+            this.eqVal2.innerText = this.formatValue(val2);
         }
 
         this.eqAnswer.value = '';
@@ -274,7 +296,7 @@ const UI = {
         }
 
         this._submitHandler = () => {
-            const answer = parseFloat(this.eqAnswer.value);
+            const answer = parseFloat(this.eqAnswer.value.replace(',', '.'));
             if (isNaN(answer)) return;
             
             this.btnSubmit.removeEventListener('click', this._submitHandler);

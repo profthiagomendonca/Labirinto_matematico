@@ -949,3 +949,25 @@ h1 {
     font-size: 1rem;
     text-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
 }
+
+@media (max-width: 480px) {
+    .hud {
+        padding: 6px 10px;
+        gap: 4px;
+    }
+    .hud-item {
+        font-size: 0.65rem;
+    }
+    .hud-value {
+        font-size: 1.0rem;
+    }
+    #hud-target {
+        font-size: 1.3rem !important;
+    }
+    .screen {
+        padding: 10px;
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
+}
