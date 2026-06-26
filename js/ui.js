@@ -114,7 +114,7 @@ const UI = {
                 // Renderiza o valor apropriado na célula
                 if (cellData.value !== null) {
                     if (cellData.type === 'end') {
-                        cellEl.innerHTML = `<span style="font-size:1.1rem; font-weight:900;">🏆${cellData.value}</span>`;
+                        cellEl.innerHTML = `<span style="font-size: calc(var(--cell-size) * 0.32); font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; width: 100%; height: 100%;"><span>🏆</span><span style="font-size: calc(var(--cell-size) * 0.28); color: var(--neon-green); text-shadow: 0 0 5px var(--neon-green);">${cellData.value}</span></span>`;
                     } else if (cellData.type === 'start') {
                         cellEl.innerText = cellData.value;
                     } else if (cellData.type === 'operator') {
