@@ -31,7 +31,9 @@
             <p>Escolha o símbolo do jogador:</p>
             <div class="piece-selector">
                 <label><input type="radio" name="piece" value="🚀" checked> 🚀 Foguete</label>
-                <label><input type="radio" name="piece" value="♞"> ♞ Cavalo (Xadrez)</label>
+                <label><input type="radio" name="piece" value="♞"> ♞ Cavalo</label>
+                <label><input type="radio" name="piece" value="🦄"> 🦄 Unicórnio</label>
+                <label><input type="radio" name="piece" value="👑"> 👑 Rainha</label>
             </div>
             
             <button id="btn-start" class="primary-button">▶ INICIAR JOGO</button>
@@ -47,6 +49,10 @@
                 <div class="hud-item highlight" title="Seu valor acumulado atual">
                     <span>⚡ Atual:</span>
                     <span id="hud-current" class="hud-value pulse">12</span>
+                </div>
+                <div class="hud-item" title="Gemas Coletadas">
+                    <span>💎 Gemas:</span>
+                    <span id="hud-gems" class="hud-value">0</span>
                 </div>
                 <div class="hud-item" title="O valor que você deve atingir na saída">
                     <span>🏆 Alvo:</span>
@@ -71,7 +77,7 @@
                         <span id="eq-op" class="eq-term neon-text-blue">+</span>
                         <span id="eq-val2" class="eq-term">3</span>
                         <span class="eq-term">=</span>
-                        <input type="number" id="eq-answer" class="eq-input" placeholder="?" autocomplete="off" autofocus>
+                        <input type="number" id="eq-answer" class="eq-input" placeholder="?" step="any" autocomplete="off" autofocus>
                     </div>
                     <button id="btn-submit-answer" class="primary-button modal-btn">CONFIRMAR</button>
                 </div>
@@ -84,11 +90,32 @@
         <div id="end-screen" class="screen">
             <h1 id="end-title">🏆 Vitória! 🏆</h1>
             <p id="end-message">Você encontrou o caminho correto!</p>
-            <div class="stats">
-                <p>Tempo: <span id="end-time">00:00</span></p>
-                <div id="stars-container" class="stars">⭐⭐⭐</div>
+            
+            <div class="end-layout">
+                <div class="trophy-display-container">
+                    <div id="trophy-icon" class="trophy-glow">🏆</div>
+                    <span id="trophy-title">Troféu de Ouro</span>
+                </div>
+                
+                <div class="stats">
+                    <p>Tempo de Missão: <span id="end-time-display">00:00</span></p>
+                    <div id="stars-container" class="stars">⭐⭐⭐</div>
+                </div>
             </div>
-            <button id="btn-restart" class="primary-button">Jogar Novamente</button>
+
+            <!-- Seção de Selos de Conquista Selecionáveis -->
+            <div class="achievements-section">
+                <h3>Escolha até 2 Selos de Conquista Habilitados:</h3>
+                <div id="badges-container" class="badges-selector">
+                    <!-- Gerados via JavaScript -->
+                </div>
+                <div class="selected-badges-display">
+                    <span>Selos Escolhidos: </span>
+                    <div id="selected-badges-list">Nenhum selo selecionado</div>
+                </div>
+            </div>
+            
+            <button id="btn-restart" class="primary-button">▶ JOGAR NOVAMENTE</button>
         </div>
 
     </div>

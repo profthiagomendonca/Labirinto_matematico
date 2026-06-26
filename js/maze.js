@@ -13,7 +13,8 @@ const MazeGen = {
                 visited: false,
                 walls: { top: true, right: true, bottom: true, left: true },
                 isPath: false,
-                trap: null
+                trap: null,
+                gem: false
             };
         }));
 
@@ -128,10 +129,10 @@ const MazeGen = {
                     if (bfsVisited[numCoord.r][numCoord.c]) continue;
                     bfsVisited[numCoord.r][numCoord.c] = true;
 
-                    // Se não tem valor (beco), gera um número distrator
+                    // Se não tem valor (beco), gera um número distrator adequado ao operador
                     if (grid[numCoord.r][numCoord.c].value === null) {
-                        const wrongStep = Equations.generateWrongStep(val, difficulty, targetValue);
-                        grid[numCoord.r][numCoord.c].value = wrongStep.num;
+                        const wrongNum = Equations.generateWrongOperand(val, op, difficulty, targetValue);
+                        grid[numCoord.r][numCoord.c].value = wrongNum;
                     }
                     const num = grid[numCoord.r][numCoord.c].value;
                     const nextVal = Equations.apply(val, op, num);
@@ -153,6 +154,7 @@ const MazeGen = {
             grid[rows - 2][cols - 1].value = '=';
         }
 
+        this.spawnGems(grid, rows, cols);
         return { grid, targetValue };
     },
 
@@ -234,6 +236,25 @@ const MazeGen = {
         for (let i = 0; i < Math.min(trapTypes.length, possibleCells.length); i++) {
             const cell = possibleCells[i];
             grid[cell.r][cell.c].trap = trapTypes[i];
+        }
+    },
+
+    spawnGems(grid, rows, cols) {
+        const candidates = [];
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const cell = grid[r][c];
+                // Gemas apenas em células de número fora do caminho principal
+                if (cell.type === 'number' && !cell.isPath && (r !== 0 || c !== 0)) {
+                    candidates.push(cell);
+                }
+            }
+        }
+        candidates.sort(() => Math.random() - 0.5);
+        // Coloca gemas em cerca de 35% dessas células
+        const gemCount = Math.max(1, Math.floor(candidates.length * 0.35));
+        for (let i = 0; i < Math.min(gemCount, candidates.length); i++) {
+            candidates[i].gem = true;
         }
     }
 };

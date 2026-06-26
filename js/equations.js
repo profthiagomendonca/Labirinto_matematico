@@ -2,21 +2,25 @@ const Equations = {
     // Aplica uma operação a um valor usando operador e operando
     apply(value, op, num) {
         if (!op) return value;
-        num = parseInt(num);
+        num = parseFloat(num);
         if (isNaN(num) && op !== '√') return value; // √ de cubos/quadrados pode ter num 2 ou 3
         
+        let result;
         switch (op) {
-            case '+': return value + num;
-            case '-': return value - num;
-            case '×': return value * num;
-            case '÷': return num !== 0 ? value / num : value;
-            case '^': return Math.pow(value, num);
+            case '+': result = value + num; break;
+            case '-': result = value - num; break;
+            case '×': result = value * num; break;
+            case '÷': result = num !== 0 ? value / num : value; break;
+            case '^': result = Math.pow(value, num); break;
             case '√': 
-                if (num === 3) return Math.cbrt(value);
-                return Math.sqrt(value);
-            case '%': return (value * num) / 100;
-            default: return value;
+                if (num === 3) result = Math.cbrt(value);
+                else result = Math.sqrt(value);
+                break;
+            case '%': result = (value * num) / 100; break;
+            default: result = value;
         }
+        // Evita dízimas estranhas do float (IEEE-754) e limita em no máximo 2 casas decimais
+        return Math.round(result * 100) / 100;
     },
 
     // Retorna porcentagens padrão que resultam em valores inteiros para o valor atual
@@ -81,8 +85,11 @@ const Equations = {
         }
         if (op === '÷') {
             const divisors = [];
-            for (let i = 2; i <= Math.min(currentValue, 50); i++) {
-                if (currentValue % i === 0) divisors.push(i);
+            // Procuramos divisores de 2 a 20 que resultem em decimais exatos (no máximo 2 casas decimais)
+            for (let i = 2; i <= 20; i++) {
+                if (Math.round(currentValue * 100) % i === 0) {
+                    divisors.push(i);
+                }
             }
             return divisors.length > 0 ? divisors[Math.floor(Math.random() * divisors.length)] : 1;
         }
@@ -106,18 +113,15 @@ const Equations = {
         return 1;
     },
 
-    // Gera um operador e operando distratores (para becos sem saída)
-    generateWrongStep(currentValue, difficulty, targetValue) {
-        let op = this.generateValidOpSymbol(currentValue, difficulty);
+    // Gera um operando distrator adequado para o operador fornecido
+    generateWrongOperand(currentValue, op, difficulty, targetValue) {
         let num = this.generateValidOperand(currentValue, op, difficulty);
-        
         let attempts = 0;
         // Evita que leve diretamente ao alvo por acidente
         while (this.apply(currentValue, op, num) === targetValue && attempts < 10) {
-            op = this.generateValidOpSymbol(currentValue, difficulty);
             num = this.generateValidOperand(currentValue, op, difficulty);
             attempts++;
         }
-        return { op, num };
+        return num;
     }
 };

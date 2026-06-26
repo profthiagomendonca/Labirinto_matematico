@@ -286,6 +286,40 @@ h1 {
     transform: translateY(-3px);
 }
 
+/* 🦄 Unicórnio — aura rosa */
+.piece-selector label:has(input[value="🦄"]) {
+    border-color: rgba(255, 50, 200, 0.4);
+    color: #ff32c8;
+}
+.piece-selector label:has(input[value="🦄"]):hover {
+    border-color: #ff32c8;
+    box-shadow: 0 0 14px rgba(255, 50, 200, 0.4);
+    transform: translateY(-2px);
+}
+.piece-selector label:has(input[value="🦄"]:checked) {
+    border-color: #ff32c8;
+    background: rgba(255, 50, 200, 0.12);
+    box-shadow: 0 0 22px rgba(255, 50, 200, 0.5);
+    transform: translateY(-3px);
+}
+
+/* 👑 Rainha — aura dourada */
+.piece-selector label:has(input[value="👑"]) {
+    border-color: rgba(255, 215, 0, 0.4);
+    color: #ffd700;
+}
+.piece-selector label:has(input[value="👑"]):hover {
+    border-color: #ffd700;
+    box-shadow: 0 0 14px rgba(255, 215, 0, 0.4);
+    transform: translateY(-2px);
+}
+.piece-selector label:has(input[value="👑"]:checked) {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.12);
+    box-shadow: 0 0 22px rgba(255, 215, 0, 0.5);
+    transform: translateY(-3px);
+}
+
 
 /* Maze Grid */
 #maze-container {
@@ -485,6 +519,42 @@ h1 {
     100% { box-shadow: 0 0 18px #c060ff, 0 0 35px rgba(180, 60, 255, 0.35); transform: scale(1); }
 }
 
+/* Player — Unicórnio (🦄) — aura rosa */
+#player.is-unicorn {
+    background: radial-gradient(circle, rgba(255, 50, 200, 0.3) 0%, rgba(200, 0, 150, 0.08) 100%);
+    border: 2px solid #ff32c8;
+    border-radius: 50%;
+    box-shadow: 0 0 18px #ff32c8, 0 0 35px rgba(255, 50, 200, 0.35);
+    font-size: 1.6rem;
+    color: #ffd2f3;
+    text-shadow: 0 0 8px #ff32c8;
+    animation: pulseUnicorn 1.8s infinite ease-in-out;
+}
+
+@keyframes pulseUnicorn {
+    0%   { box-shadow: 0 0 18px #ff32c8, 0 0 35px rgba(255, 50, 200, 0.35); transform: scale(1); }
+    50%  { box-shadow: 0 0 30px #ff66d9, 0 0 60px rgba(255, 50, 200, 0.55); transform: scale(1.06); }
+    100% { box-shadow: 0 0 18px #ff32c8, 0 0 35px rgba(255, 50, 200, 0.35); transform: scale(1); }
+}
+
+/* Player — Rainha (👑) — aura dourada */
+#player.is-queen {
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(180, 140, 0, 0.08) 100%);
+    border: 2px solid #ffd700;
+    border-radius: 8px 8px 3px 3px;
+    box-shadow: 0 0 18px #ffd700, 0 0 35px rgba(255, 215, 0, 0.35);
+    font-size: 1.5rem;
+    color: #fff6c8;
+    text-shadow: 0 0 8px #ffd700;
+    animation: pulseQueen 1.8s infinite ease-in-out;
+}
+
+@keyframes pulseQueen {
+    0%   { box-shadow: 0 0 18px #ffd700, 0 0 35px rgba(255, 215, 0, 0.35); transform: scale(1); }
+    50%  { box-shadow: 0 0 30px #ffea70, 0 0 60px rgba(255, 215, 0, 0.55); transform: scale(1.06); }
+    100% { box-shadow: 0 0 18px #ffd700, 0 0 35px rgba(255, 215, 0, 0.35); transform: scale(1); }
+}
+
 /* Traps */
 .trap-indicator {
     position: absolute;
@@ -647,4 +717,205 @@ h1 {
 
 .shake {
     animation: shake 0.3s ease-in-out;
+}
+
+/* 💎 Estilo da Gema Coletável */
+.gem-collectible {
+    position: absolute;
+    font-size: 1.2rem;
+    z-index: 5;
+    pointer-events: none;
+    animation: floatGem 2s infinite ease-in-out;
+    text-shadow: 0 0 8px #00f5ff;
+}
+
+@keyframes floatGem {
+    0% { transform: translateY(0px) scale(0.9); opacity: 0.95; }
+    50% { transform: translateY(-4px) scale(1.05); opacity: 1; text-shadow: 0 0 12px #00f5ff, 0 0 20px #00d4ff; }
+    100% { transform: translateY(0px) scale(0.9); opacity: 0.95; }
+}
+
+/* Layout de Fim de Jogo */
+.end-layout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    background: rgba(26, 26, 62, 0.5);
+    border: 1px solid var(--border-wall);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+}
+
+.trophy-display-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#trophy-icon {
+    font-size: 4rem;
+    line-height: 1;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
+}
+
+#trophy-title {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Efeitos neon dos metais dos troféus */
+.trophy-gold {
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    animation: pulseGold 2s infinite ease-in-out;
+}
+.trophy-silver {
+    color: #e0e0e0;
+    text-shadow: 0 0 20px rgba(224, 224, 224, 0.6);
+    animation: pulseSilver 2s infinite ease-in-out;
+}
+.trophy-bronze {
+    color: #cd7f32;
+    text-shadow: 0 0 20px rgba(205, 127, 50, 0.6);
+    animation: pulseBronze 2s infinite ease-in-out;
+}
+
+@keyframes pulseGold {
+    0%, 100% { filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)); }
+    50% { filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8)); transform: scale(1.05); }
+}
+@keyframes pulseSilver {
+    0%, 100% { filter: drop-shadow(0 0 15px rgba(224, 224, 224, 0.4)); }
+    50% { filter: drop-shadow(0 0 25px rgba(224, 224, 224, 0.8)); transform: scale(1.05); }
+}
+@keyframes pulseBronze {
+    0%, 100% { filter: drop-shadow(0 0 15px rgba(205, 127, 50, 0.4)); }
+    50% { filter: drop-shadow(0 0 25px rgba(205, 127, 50, 0.8)); transform: scale(1.05); }
+}
+
+/* Seção de Conquistas / Selos */
+.achievements-section {
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(15, 15, 35, 0.8);
+    border: 1px solid var(--border-wall);
+    border-radius: 18px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.achievements-section h3 {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.badges-selector {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.badge-card {
+    background: rgba(26, 26, 62, 0.6);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 10px 14px;
+    min-width: 110px;
+    cursor: not-allowed;
+    opacity: 0.4;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    user-select: none;
+}
+
+.badge-card.enabled {
+    cursor: pointer;
+    opacity: 0.85;
+    border-color: var(--border-wall);
+}
+
+.badge-card.enabled:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.badge-card.enabled.selected {
+    opacity: 1;
+    transform: translateY(-3px);
+}
+
+/* Visual individual de cada selo ativo e selecionado */
+.badge-card.enabled.selected.badge-speed {
+    border-color: #ffd93d;
+    background: rgba(255, 217, 61, 0.12);
+    box-shadow: 0 0 15px rgba(255, 217, 61, 0.4);
+}
+
+.badge-card.enabled.selected.badge-mind {
+    border-color: #00d4ff;
+    background: rgba(0, 212, 255, 0.12);
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+}
+
+.badge-card.enabled.selected.badge-map {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.12);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
+.badge-emoji {
+    font-size: 1.8rem;
+    line-height: 1;
+}
+
+.badge-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.badge-status {
+    font-size: 0.65rem;
+    color: #888;
+}
+
+.badge-card.enabled .badge-status {
+    color: #00ff88;
+    font-weight: 700;
+}
+
+.badge-card.enabled.selected .badge-status {
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255,255,255,0.8);
+}
+
+.selected-badges-display {
+    font-size: 0.9rem;
+    color: #aaa;
+    margin-top: 10px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+}
+
+#selected-badges-list {
+    margin-top: 6px;
+    font-weight: 700;
+    color: #fff;
+    font-size: 1rem;
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.3);
 }

@@ -143,6 +143,14 @@ const UI = {
                     cellEl.appendChild(trapIndicator);
                 }
 
+                // Gems rendering
+                if (cellData.gem) {
+                    const gemEl = document.createElement('div');
+                    gemEl.className = 'gem-collectible';
+                    gemEl.innerText = '💎';
+                    cellEl.appendChild(gemEl);
+                }
+
                 // Renderiza pontes de conexão onde não há paredes
                 if (!cellData.walls.right && c < cols - 1) {
                     const conn = document.createElement('div');
@@ -165,6 +173,10 @@ const UI = {
         player.innerText = this.pieceSymbol; // usar símbolo escolhido
         if (this.pieceSymbol === '♞') {
             player.classList.add('is-knight');
+        } else if (this.pieceSymbol === '🦄') {
+            player.classList.add('is-unicorn');
+        } else if (this.pieceSymbol === '👑') {
+            player.classList.add('is-queen');
         }
         gridEl.appendChild(player);
         this.playerEl = player;
@@ -248,7 +260,7 @@ const UI = {
         }
 
         this._submitHandler = () => {
-            const answer = parseInt(this.eqAnswer.value);
+            const answer = parseFloat(this.eqAnswer.value);
             if (isNaN(answer)) return;
             
             this.btnSubmit.removeEventListener('click', this._submitHandler);
@@ -273,11 +285,113 @@ const UI = {
         this.mathModal.classList.remove('active');
     },
 
-    showWin(timeStr, starsCount) {
+    playGemaSound() {
+        this.playBeep(1200, 100);
+        setTimeout(() => this.playBeep(1600, 150), 100);
+    },
+
+    updateGemsHUD(count) {
+        const gemsEl = document.getElementById('hud-gems');
+        if (gemsEl) {
+            gemsEl.innerText = count;
+            gemsEl.classList.add('pulse');
+            setTimeout(() => gemsEl.classList.remove('pulse'), 500);
+        }
+    },
+
+    showWin({ timeStr, starsCount, trophy, achievements }) {
         this.showScreen('end-screen');
-        document.getElementById('end-time').innerText = timeStr;
+        
+        // 1. Atualiza informações básicas
+        document.getElementById('end-time-display').innerText = timeStr;
         document.getElementById('stars-container').innerText = '⭐'.repeat(starsCount) + '☆'.repeat(3 - starsCount);
-        if (starsCount === 3) document.getElementById('end-message').innerText = "Missão Espacial Concluída com Perfeição!";
-        else document.getElementById('end-message').innerText = "Missão Concluída! Você sobreviveu às anomalias.";
+        
+        if (starsCount === 3) {
+            document.getElementById('end-message').innerText = "Missão Espacial Concluída com Perfeição!";
+        } else if (starsCount === 2) {
+            document.getElementById('end-message').innerText = "Missão Concluída! Você sobreviveu às anomalias.";
+        } else {
+            document.getElementById('end-message').innerText = "Missão Concluída! Cuidado com os limites de tempo.";
+        }
+
+        // 2. Renderiza o Troféu correspondente
+        const trophyIcon = document.getElementById('trophy-icon');
+        const trophyTitle = document.getElementById('trophy-title');
+        
+        // Limpa classes anteriores do troféu
+        trophyIcon.className = 'trophy-glow';
+        if (trophy === 'gold') {
+            trophyIcon.innerText = '🏆';
+            trophyIcon.classList.add('trophy-gold');
+            trophyTitle.innerText = 'Troféu de Ouro';
+        } else if (trophy === 'silver') {
+            trophyIcon.innerText = '🥈';
+            trophyIcon.classList.add('trophy-silver');
+            trophyTitle.innerText = 'Troféu de Prata';
+        } else {
+            trophyIcon.innerText = '🥉';
+            trophyIcon.classList.add('trophy-bronze');
+            trophyTitle.innerText = 'Troféu de Bronze';
+        }
+
+        // 3. Renderiza Selos de Conquista Interativos
+        const badgesContainer = document.getElementById('badges-container');
+        badgesContainer.innerHTML = '';
+        
+        const badgeDefinitions = [
+            { id: 'speed', name: 'Veloz e Furioso', emoji: '⏱️', desc: 'Tempo recorde' },
+            { id: 'mind', name: 'Mente Brilhante', emoji: '🧠', desc: 'Zero erros' },
+            { id: 'map', name: 'Cartógrafo', emoji: '📜', desc: 'Explorou >= 80%' }
+        ];
+
+        let selectedBadges = [];
+        const selectedListEl = document.getElementById('selected-badges-list');
+        selectedListEl.innerText = 'Nenhum selo selecionado';
+
+        const updateSelectedDisplay = () => {
+            if (selectedBadges.length === 0) {
+                selectedListEl.innerText = 'Nenhum selo selecionado';
+            } else {
+                selectedListEl.innerText = selectedBadges.map(bId => {
+                    const b = badgeDefinitions.find(x => x.id === bId);
+                    return `${b.emoji} ${b.name}`;
+                }).join('  |  ');
+            }
+        };
+
+        badgeDefinitions.forEach(badge => {
+            const isQualified = achievements.includes(badge.id);
+            const card = document.createElement('div');
+            card.className = `badge-card badge-${badge.id}`;
+            if (isQualified) card.classList.add('enabled');
+
+            card.innerHTML = `
+                <span class="badge-emoji">${badge.emoji}</span>
+                <span class="badge-name">${badge.name}</span>
+                <span class="badge-status">${isQualified ? 'Habilitado' : 'Bloqueado'}</span>
+            `;
+
+            if (isQualified) {
+                card.addEventListener('click', () => {
+                    if (card.classList.contains('selected')) {
+                        card.classList.remove('selected');
+                        selectedBadges = selectedBadges.filter(id => id !== badge.id);
+                    } else {
+                        if (selectedBadges.length >= 2) {
+                            // Limite atingido: remove o mais antigo selecionado para dar lugar ao novo
+                            const oldestId = selectedBadges.shift();
+                            const oldestCard = document.querySelector(`.badge-${oldestId}`);
+                            if (oldestCard) oldestCard.classList.remove('selected');
+                        }
+                        card.classList.add('selected');
+                        selectedBadges.push(badge.id);
+                    }
+                    updateSelectedDisplay();
+                    this.playBeep(650, 70); // feedback de toque
+                });
+            }
+
+            badgesContainer.appendChild(card);
+        });
     }
 };
