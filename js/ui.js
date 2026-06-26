@@ -91,10 +91,18 @@ const UI = {
     renderMaze(mazeData, rows, cols, difficulty) {
         this.container.innerHTML = '';
         
+        // Calcula o tamanho da célula responsivo baseado na largura da tela
+        const containerWidth = Math.min(window.innerWidth - 32, 500); // 32px de margem de segurança
+        const paddingAndGaps = 20 + (cols - 1) * 4;
+        let cellSize = Math.floor((containerWidth - paddingAndGaps) / cols);
+        cellSize = Math.min(cellSize, 50); // Máximo 50px
+        cellSize = Math.max(cellSize, 32); // Mínimo 32px para legibilidade
+        
         const gridEl = document.createElement('div');
         gridEl.className = 'maze-grid';
-        gridEl.style.gridTemplateColumns = `repeat(${cols}, 50px)`;
-        gridEl.style.gridTemplateRows = `repeat(${rows}, 50px)`;
+        gridEl.style.setProperty('--grid-cols', cols);
+        gridEl.style.setProperty('--grid-rows', rows);
+        gridEl.style.setProperty('--cell-size', `${cellSize}px`);
 
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
@@ -193,8 +201,8 @@ const UI = {
 
     updatePlayerPosition(r, c) {
         if (!this.playerEl) return;
-        this.playerEl.style.top = `${r * 54 + 15}px`; // 50px cell + 4px gap + grid padding (10px) + centering offset (5px)
-        this.playerEl.style.left = `${c * 54 + 15}px`;
+        this.playerEl.style.setProperty('--player-r', r);
+        this.playerEl.style.setProperty('--player-c', c);
         
         // Marcar trilha
         const cell = document.getElementById(`cell-${r}-${c}`);
