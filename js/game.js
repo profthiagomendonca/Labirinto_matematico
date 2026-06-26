@@ -19,6 +19,7 @@ const Game = {
         this.gemsCollected = 0;
         this.errorsCount = 0;
         this.visitedCells = new Set();
+        this.gemHistory = [];
 
         UI.init(this);
         this.bindInput();
@@ -36,6 +37,7 @@ const Game = {
         this.gemsCollected = 0;
         this.errorsCount = 0;
         this.visitedCells = new Set(["0,0"]);
+        this.gemHistory = [false];
         
         if (this.difficulty === 'easy') { this.rows = 5; this.cols = 5; }
         else if (this.difficulty === 'medium') { this.rows = 7; this.cols = 7; }
@@ -128,6 +130,22 @@ const Game = {
             // Atualiza posição do jogador para a anterior
             this.updatePosition(nr, nc);
 
+            // Pop histórico de gemas coletadas
+            const wasGemCollected = this.gemHistory.pop();
+            if (wasGemCollected) {
+                currentCell.gem = true;
+                this.gemsCollected = Math.max(0, this.gemsCollected - 1);
+                UI.updateGemsHUD(this.gemsCollected);
+                
+                const currentCellEl = document.getElementById(`cell-${currentCell.r}-${currentCell.c}`);
+                if (currentCellEl) {
+                    const gemEl = document.createElement('div');
+                    gemEl.className = 'gem-collectible';
+                    gemEl.innerText = '💎';
+                    currentCellEl.appendChild(gemEl);
+                }
+            }
+
             // Se o jogador estava em uma célula de número comum ou de saída e voltou para um operador
             if (currentCell.type === 'number' || currentCell.type === 'end') {
                 // Restaura o valor acumulado anterior da pilha
@@ -172,6 +190,7 @@ const Game = {
 
             this.updatePosition(nr, nc);
             this.pathHistory.push({ r: nr, c: nc });
+            this.gemHistory.push(false);
 
             // Atualiza o HUD mostrando o operador pendente (ex: "Atual: 12 + ...")
             UI.updateHUD(this.startValue, `${this.currentValue} ${this.pendingOperator} ...`, this.targetValue);
@@ -207,14 +226,17 @@ const Game = {
                     this.pendingOperator = null;
 
                     // Coleta gema se houver na célula
+                    let collected = false;
                     if (nextCell.gem) {
                         nextCell.gem = false;
                         this.gemsCollected++;
+                        collected = true;
                         UI.playGemaSound();
                         UI.updateGemsHUD(this.gemsCollected);
                         const gemEl = document.querySelector(`#cell-${nr}-${nc} .gem-collectible`);
                         if (gemEl) gemEl.remove();
                     }
+                    this.gemHistory.push(collected);
 
                     UI.updateHUD(this.startValue, this.currentValue, this.targetValue);
                     UI.playSuccess();
@@ -234,10 +256,11 @@ const Game = {
             // O jogador só pode entrar nela se já tiver acumulado exatamente o valor alvo (meta)
             if (this.currentValue === this.targetValue) {
                 this.updatePosition(nr, nc);
-                this.pendingOperator = null;
-                this.pathHistory.push({ r: nr, c: nc });
+            this.pendingOperator = null;
+            this.pathHistory.push({ r: nr, c: nc });
+            this.gemHistory.push(false);
 
-                UI.updateHUD(this.startValue, this.currentValue, this.targetValue);
+            UI.updateHUD(this.startValue, this.currentValue, this.targetValue);
                 UI.playSuccess();
                 this.win();
             } else {
@@ -274,11 +297,12 @@ const Game = {
     triggerTrap(trapType) {
         if (trapType === 'reset') {
             this.currentValue = this.startValue;
-            this.valueHistory = [];
+            // Não limpamos o valueHistory para permitir o backtrack correto de desfazer a jogada
         } 
         else if (trapType === 'inverse') {
+            // Reverte para o último valor acumulado sem retirá-lo da pilha, preservando a coerência do backtrack
             if (this.valueHistory.length > 0) {
-                this.currentValue = this.valueHistory.pop();
+                this.currentValue = this.valueHistory[this.valueHistory.length - 1];
             } else {
                 this.currentValue = this.startValue;
             }
