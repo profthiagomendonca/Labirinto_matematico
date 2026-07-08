@@ -1079,31 +1079,3 @@ h1 {
     }
 }
 
-/* Botão de Som / Música */
-.audio-toggle-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    font-size: 1.3rem;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    transition: all 0.2s ease-in-out;
-}
-.audio-toggle-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
-.audio-toggle-btn.muted {
-    opacity: 0.5;
-}
-
