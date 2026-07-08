@@ -217,6 +217,8 @@ const UI = {
             player.classList.add('is-dino');
         } else if (this.pieceSymbol === '👻') {
             player.classList.add('is-ghost');
+        } else if (this.pieceSymbol === '🤖') {
+            player.classList.add('is-robot');
         }
         gridEl.appendChild(player);
         this.playerEl = player;

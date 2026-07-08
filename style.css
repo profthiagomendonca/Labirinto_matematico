@@ -279,7 +279,7 @@ h1 {
 
 /* 🚀 Foguete — aura amarela */
 .piece-selector label:has(input[value="🚀"]) {
-    border-color: rgba(255, 217, 61, 0.4);
+    border-color: rgba(255, 217, 61, 0.8);
     color: var(--text-yellow);
 }
 .piece-selector label:has(input[value="🚀"]):hover {
@@ -296,7 +296,7 @@ h1 {
 
 /* ♞ Cavalo — aura roxa */
 .piece-selector label:has(input[value="🐴"]), .piece-selector label:has(input[value="♞"]) {
-    border-color: rgba(192, 96, 255, 0.4);
+    border-color: rgba(192, 96, 255, 0.8);
     color: #c060ff;
     font-family: "Georgia", "Times New Roman", serif;
 }
@@ -314,7 +314,7 @@ h1 {
 
 /* 🦄 Unicórnio — aura rosa */
 .piece-selector label:has(input[value="🦄"]) {
-    border-color: rgba(255, 50, 200, 0.4);
+    border-color: rgba(255, 50, 200, 0.8);
     color: #ff32c8;
 }
 .piece-selector label:has(input[value="🦄"]):hover {
@@ -331,7 +331,7 @@ h1 {
 
 /* 👑 Rainha — aura dourada */
 .piece-selector label:has(input[value="👑"]) {
-    border-color: rgba(255, 215, 0, 0.4);
+    border-color: rgba(255, 215, 0, 0.8);
     color: #ffd700;
 }
 .piece-selector label:has(input[value="👑"]):hover {
@@ -348,7 +348,7 @@ h1 {
 
 /* 🦖 Dinossauro — aura verde limão */
 .piece-selector label:has(input[value="🦖"]) {
-    border-color: rgba(57, 255, 20, 0.4);
+    border-color: rgba(57, 255, 20, 0.8);
     color: #39ff14;
 }
 .piece-selector label:has(input[value="🦖"]):hover {
@@ -365,7 +365,7 @@ h1 {
 
 /* 👻 Fantasma — aura ciano */
 .piece-selector label:has(input[value="👻"]) {
-    border-color: rgba(0, 240, 255, 0.4);
+    border-color: rgba(0, 240, 255, 0.8);
     color: #00f0ff;
 }
 .piece-selector label:has(input[value="👻"]):hover {
@@ -377,6 +377,23 @@ h1 {
     border-color: #00f0ff;
     background: rgba(0, 240, 255, 0.12);
     box-shadow: 0 0 22px rgba(0, 240, 255, 0.5);
+    transform: translateY(-3px);
+}
+
+/* 🤖 Robô — aura azul */
+.piece-selector label:has(input[value="🤖"]) {
+    border-color: rgba(0, 150, 255, 0.8);
+    color: #0096ff;
+}
+.piece-selector label:has(input[value="🤖"]):hover {
+    border-color: #0096ff;
+    box-shadow: 0 0 14px rgba(0, 150, 255, 0.4);
+    transform: translateY(-2px);
+}
+.piece-selector label:has(input[value="🤖"]:checked) {
+    border-color: #0096ff;
+    background: rgba(0, 150, 255, 0.12);
+    box-shadow: 0 0 22px rgba(0, 150, 255, 0.5);
     transform: translateY(-3px);
 }
 
@@ -655,6 +672,24 @@ h1 {
     0%   { box-shadow: 0 0 18px #00f0ff, 0 0 35px rgba(0, 240, 255, 0.35); transform: scale(1); }
     50%  { box-shadow: 0 0 30px #66f5ff, 0 0 60px rgba(0, 240, 255, 0.55); transform: scale(1.06); }
     100% { box-shadow: 0 0 18px #00f0ff, 0 0 35px rgba(0, 240, 255, 0.35); transform: scale(1); }
+}
+
+/* Player — Robô (🤖) — aura azul */
+#player.is-robot {
+    background: radial-gradient(circle, rgba(0, 150, 255, 0.3) 0%, rgba(0, 80, 200, 0.08) 100%);
+    border: 2px solid #0096ff;
+    border-radius: 8px;
+    box-shadow: 0 0 18px #0096ff, 0 0 35px rgba(0, 150, 255, 0.35);
+    font-size: calc(var(--cell-size) * 0.55);
+    color: #e0f0ff;
+    text-shadow: 0 0 8px #0096ff;
+    animation: pulseRobot 1.8s infinite ease-in-out;
+}
+
+@keyframes pulseRobot {
+    0%   { box-shadow: 0 0 18px #0096ff, 0 0 35px rgba(0, 150, 255, 0.35); transform: scale(1); }
+    50%  { box-shadow: 0 0 30px #4dbeff, 0 0 60px rgba(0, 150, 255, 0.55); transform: scale(1.06); }
+    100% { box-shadow: 0 0 18px #0096ff, 0 0 35px rgba(0, 150, 255, 0.35); transform: scale(1); }
 }
 
 /* Traps */
