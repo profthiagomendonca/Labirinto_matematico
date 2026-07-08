@@ -329,20 +329,20 @@ h1 {
     transform: translateY(-3px);
 }
 
-/* 👑 Rainha — aura dourada */
+/* 👑 Rainha — aura vermelha */
 .piece-selector label:has(input[value="👑"]) {
-    border-color: rgba(255, 215, 0, 0.8);
-    color: #ffd700;
+    border-color: rgba(255, 51, 102, 0.8);
+    color: #ff3366;
 }
 .piece-selector label:has(input[value="👑"]):hover {
-    border-color: #ffd700;
-    box-shadow: 0 0 14px rgba(255, 215, 0, 0.4);
+    border-color: #ff3366;
+    box-shadow: 0 0 14px rgba(255, 51, 102, 0.4);
     transform: translateY(-2px);
 }
 .piece-selector label:has(input[value="👑"]:checked) {
-    border-color: #ffd700;
-    background: rgba(255, 215, 0, 0.12);
-    box-shadow: 0 0 22px rgba(255, 215, 0, 0.5);
+    border-color: #ff3366;
+    background: rgba(255, 51, 102, 0.12);
+    box-shadow: 0 0 22px rgba(255, 51, 102, 0.5);
     transform: translateY(-3px);
 }
 
@@ -380,20 +380,20 @@ h1 {
     transform: translateY(-3px);
 }
 
-/* 🤖 Robô — aura azul */
+/* 🤖 Robô — aura roxa */
 .piece-selector label:has(input[value="🤖"]) {
-    border-color: rgba(0, 150, 255, 0.8);
-    color: #0096ff;
+    border-color: rgba(192, 96, 255, 0.8);
+    color: #c060ff;
 }
 .piece-selector label:has(input[value="🤖"]):hover {
-    border-color: #0096ff;
-    box-shadow: 0 0 14px rgba(0, 150, 255, 0.4);
+    border-color: #c060ff;
+    box-shadow: 0 0 14px rgba(192, 96, 255, 0.4);
     transform: translateY(-2px);
 }
 .piece-selector label:has(input[value="🤖"]:checked) {
-    border-color: #0096ff;
-    background: rgba(0, 150, 255, 0.12);
-    box-shadow: 0 0 22px rgba(0, 150, 255, 0.5);
+    border-color: #c060ff;
+    background: rgba(192, 96, 255, 0.12);
+    box-shadow: 0 0 22px rgba(192, 96, 255, 0.5);
     transform: translateY(-3px);
 }
 
@@ -620,22 +620,22 @@ h1 {
     100% { box-shadow: 0 0 18px #ff32c8, 0 0 35px rgba(255, 50, 200, 0.35); transform: scale(1); }
 }
 
-/* Player — Rainha (👑) — aura dourada */
+/* Player — Rainha (👑) — aura vermelha */
 #player.is-queen {
-    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(180, 140, 0, 0.08) 100%);
-    border: 2px solid #ffd700;
+    background: radial-gradient(circle, rgba(255, 51, 102, 0.3) 0%, rgba(180, 0, 30, 0.08) 100%);
+    border: 2px solid #ff3366;
     border-radius: 8px 8px 3px 3px;
-    box-shadow: 0 0 18px #ffd700, 0 0 35px rgba(255, 215, 0, 0.35);
+    box-shadow: 0 0 18px #ff3366, 0 0 35px rgba(255, 51, 102, 0.35);
     font-size: calc(var(--cell-size) * 0.5);
-    color: #fff6c8;
-    text-shadow: 0 0 8px #ffd700;
+    color: #ffe5ec;
+    text-shadow: 0 0 8px #ff3366;
     animation: pulseQueen 1.8s infinite ease-in-out;
 }
 
 @keyframes pulseQueen {
-    0%   { box-shadow: 0 0 18px #ffd700, 0 0 35px rgba(255, 215, 0, 0.35); transform: scale(1); }
-    50%  { box-shadow: 0 0 30px #ffea70, 0 0 60px rgba(255, 215, 0, 0.55); transform: scale(1.06); }
-    100% { box-shadow: 0 0 18px #ffd700, 0 0 35px rgba(255, 215, 0, 0.35); transform: scale(1); }
+    0%   { box-shadow: 0 0 18px #ff3366, 0 0 35px rgba(255, 51, 102, 0.35); transform: scale(1); }
+    50%  { box-shadow: 0 0 30px #ff668f, 0 0 60px rgba(255, 51, 102, 0.55); transform: scale(1.06); }
+    100% { box-shadow: 0 0 18px #ff3366, 0 0 35px rgba(255, 51, 102, 0.35); transform: scale(1); }
 }
 
 /* Player — Dinossauro (🦖) — aura verde limão */
