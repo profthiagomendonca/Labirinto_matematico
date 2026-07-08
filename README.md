@@ -19,7 +19,7 @@ O projeto integra **design moderno com tema espacial neon**, **mecânicas de cá
 - 🎯 **Valor-alvo visível na célula de chegada** — o jogador precisa acumular exatamente o valor do troféu `🏆`
 - ↩️ **Retrocesso inteligente** — voltar no labirinto desfaz automaticamente o último cálculo, sem precisar recalcular
 - 🔷 **Formas geométricas distintas por operador**: círculo, quadrado, losango, cápsula, escudo e hexágono — cada um com cor neon exclusiva
-- 🚀♞ **Escolha de personagem**: Foguete (amarelo neon) ou Cavalo de Xadrez (roxo neon), cada um com animação de brilho própria
+- 🚀🐴 **Escolha de personagem**: Foguete, Cavalo, Unicórnio ou Rainha, cada um com sua própria aura e animação de brilho neon customizadas
 - 🔢 **Modal de cálculo interativo** — o jogador precisa resolver a equação antes de avançar
 - ⏱️ **Cronômetro** com penalidade de +5 segundos a cada resposta errada
 - 🔊 **Efeitos sonoros** sintetizados via Web Audio API (acerto, erro, vitória)

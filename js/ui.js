@@ -207,7 +207,7 @@ const UI = {
         const player = document.createElement('div');
         player.id = 'player';
         player.innerText = this.pieceSymbol; // usar símbolo escolhido
-        if (this.pieceSymbol === '♞') {
+        if (this.pieceSymbol === '♞' || this.pieceSymbol === '🐴') {
             player.classList.add('is-knight');
         } else if (this.pieceSymbol === '🦄') {
             player.classList.add('is-unicorn');

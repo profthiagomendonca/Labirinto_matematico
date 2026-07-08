@@ -295,16 +295,17 @@ h1 {
 }
 
 /* ♞ Cavalo — aura roxa */
-.piece-selector label:has(input[value="♞"]) {
+.piece-selector label:has(input[value="🐴"]), .piece-selector label:has(input[value="♞"]) {
     border-color: rgba(192, 96, 255, 0.4);
     color: #c060ff;
+    font-family: "Georgia", "Times New Roman", serif;
 }
-.piece-selector label:has(input[value="♞"]):hover {
+.piece-selector label:has(input[value="🐴"]):hover, .piece-selector label:has(input[value="♞"]):hover {
     border-color: #c060ff;
     box-shadow: 0 0 14px rgba(192, 96, 255, 0.4);
     transform: translateY(-2px);
 }
-.piece-selector label:has(input[value="♞"]:checked) {
+.piece-selector label:has(input[value="🐴"]:checked), .piece-selector label:has(input[value="♞"]:checked) {
     border-color: #c060ff;
     background: rgba(192, 96, 255, 0.12);
     box-shadow: 0 0 22px rgba(192, 96, 255, 0.5);
@@ -537,9 +538,10 @@ h1 {
     border: 2px solid #c060ff;
     border-radius: 10px 10px 5px 5px; /* Forma levemente diferente: quadrado com topo arredondado */
     box-shadow: 0 0 18px #c060ff, 0 0 35px rgba(180, 60, 255, 0.35);
-    font-size: calc(var(--cell-size) * 0.55);
-    color: #e8c5ff;
-    text-shadow: 0 0 8px #c060ff;
+    font-size: calc(var(--cell-size) * 0.65); /* Aumentado para valorizar os detalhes */
+    font-family: "Georgia", "Times New Roman", serif; /* Renderização clássica, detalhada e elegante do símbolo */
+    color: #f1d8ff; /* Tom lilás brilhante e translúcido */
+    text-shadow: 0 0 3px #ffffff, 0 0 10px #c060ff, 0 0 20px #7d12ff; /* Aura de brilho neon multicamadas */
     animation: pulseKnight 1.8s infinite ease-in-out;
 }
 
