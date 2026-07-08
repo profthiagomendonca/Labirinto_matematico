@@ -92,6 +92,14 @@ const Game = {
             touchStartX = e.changedTouches[0].screenX;
             touchStartY = e.changedTouches[0].screenY;
         });
+        
+        // Impede o comportamento padrão de rolagem da página quando o jogo está ativo
+        window.addEventListener('touchmove', e => {
+            if (document.getElementById('play-screen').classList.contains('active')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
         window.addEventListener('touchend', e => {
             if (document.getElementById('play-screen').classList.contains('active') && !this.isFrozen) {
                 let dx = e.changedTouches[0].screenX - touchStartX;
