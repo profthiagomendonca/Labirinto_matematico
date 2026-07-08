@@ -13,6 +13,45 @@ const UI = {
         this.beepGain.gain.value = 0.2; // volume
         this.beepGain.connect(this.audioCtx.destination);
         
+        this.isMuted = false;
+        this.isPlayingMusic = false;
+        this.menuMusicTimeout = null;
+        
+        // Setup sound toggle button
+        const btnToggleAudio = document.getElementById('btn-toggle-audio');
+        btnToggleAudio.addEventListener('click', (e) => {
+            e.stopPropagation(); // Evita ativar listener de interação inicial
+            this.isMuted = !this.isMuted;
+            if (this.isMuted) {
+                btnToggleAudio.innerText = '🔇';
+                btnToggleAudio.classList.add('muted');
+                this.stopMenuMusic();
+                this.beepGain.gain.value = 0;
+            } else {
+                btnToggleAudio.innerText = '🔊';
+                btnToggleAudio.classList.remove('muted');
+                this.beepGain.gain.value = 0.2;
+                if (document.getElementById('start-screen').classList.contains('active')) {
+                    this.startMenuMusic();
+                }
+            }
+            this.playBeep(500, 80);
+        });
+
+        // Inicia música na primeira interação com a página (devido a restrições do navegador)
+        const startMusicOnInteraction = () => {
+            if (this.audioCtx.state === 'suspended') {
+                this.audioCtx.resume();
+            }
+            if (document.getElementById('start-screen').classList.contains('active')) {
+                this.startMenuMusic();
+            }
+            document.removeEventListener('click', startMusicOnInteraction);
+            document.removeEventListener('keydown', startMusicOnInteraction);
+        };
+        document.addEventListener('click', startMusicOnInteraction);
+        document.addEventListener('keydown', startMusicOnInteraction);
+        
         // Helper to play a short beep
         this.playBeep = function(frequency = 440, duration = 100) {
             const osc = this.audioCtx.createOscillator();
@@ -79,6 +118,85 @@ const UI = {
     showScreen(screenId) {
         this.screens.forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
+        if (screenId === 'start-screen') {
+            this.startMenuMusic();
+        } else {
+            this.stopMenuMusic();
+        }
+    },
+
+    startMenuMusic() {
+        if (this.isPlayingMusic || this.isMuted) return;
+        if (!document.getElementById('start-screen').classList.contains('active')) return;
+        this.isPlayingMusic = true;
+
+        if (this.audioCtx.state === 'suspended') {
+            this.audioCtx.resume();
+        }
+
+        const chords = [
+            [57, 60, 64, 69], // Am
+            [53, 57, 60, 65], // F
+            [48, 52, 55, 60], // C
+            [55, 59, 62, 67]  // G
+        ];
+        const pattern = [0, 1, 2, 3, 2, 1];
+        let chordIdx = 0;
+        let patternIdx = 0;
+        const tempo = 220; // ms por nota
+
+        const playNote = () => {
+            if (!this.isPlayingMusic || this.isMuted) return;
+            if (!document.getElementById('start-screen').classList.contains('active')) {
+                this.stopMenuMusic();
+                return;
+            }
+
+            const currentChord = chords[chordIdx];
+            const noteIdx = pattern[patternIdx];
+            const midiNote = currentChord[noteIdx];
+            const freq = 440 * Math.pow(2, (midiNote - 69) / 12);
+
+            const osc = this.audioCtx.createOscillator();
+            const noteGain = this.audioCtx.createGain();
+
+            osc.type = 'triangle'; // Onda suave retro chiptune
+            osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
+
+            noteGain.gain.setValueAtTime(0, this.audioCtx.currentTime);
+            noteGain.gain.linearRampToValueAtTime(0.06, this.audioCtx.currentTime + 0.05); // Volume confortável baixo
+            noteGain.gain.exponentialRampToValueAtTime(0.0001, this.audioCtx.currentTime + 0.4);
+
+            osc.connect(noteGain);
+            noteGain.connect(this.audioCtx.destination);
+            osc.start();
+
+            setTimeout(() => {
+                try {
+                    osc.stop();
+                    osc.disconnect();
+                    noteGain.disconnect();
+                } catch(e){}
+            }, 500);
+
+            patternIdx++;
+            if (patternIdx >= pattern.length) {
+                patternIdx = 0;
+                chordIdx = (chordIdx + 1) % chords.length;
+            }
+
+            this.menuMusicTimeout = setTimeout(playNote, tempo);
+        };
+
+        playNote();
+    },
+
+    stopMenuMusic() {
+        this.isPlayingMusic = false;
+        if (this.menuMusicTimeout) {
+            clearTimeout(this.menuMusicTimeout);
+            this.menuMusicTimeout = null;
+        }
     },
 
     formatValue(val) {
