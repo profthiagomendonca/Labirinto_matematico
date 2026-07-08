@@ -134,41 +134,71 @@ const UI = {
             this.audioCtx.resume();
         }
 
-        const chords = [
-            [57, 60, 64, 69], // Am
-            [53, 57, 60, 65], // F
-            [48, 52, 55, 60], // C
-            [55, 59, 62, 67]  // G
-        ];
-        const pattern = [0, 1, 2, 3, 2, 1];
-        let chordIdx = 0;
-        let patternIdx = 0;
-        const tempo = 220; // ms por nota
+        // 1. Hum de Nave (Space Drone) - Tom tecnológico e espacial de fundo
+        const droneOsc = this.audioCtx.createOscillator();
+        const droneGain = this.audioCtx.createGain();
+        
+        droneOsc.type = 'sine';
+        droneOsc.frequency.setValueAtTime(55, this.audioCtx.currentTime); // 55Hz (Lá 1) - Hum de cabine de nave
+        droneGain.gain.setValueAtTime(0.015, this.audioCtx.currentTime); // Volume ultra baixo e confortável
+        
+        droneOsc.connect(droneGain);
+        droneGain.connect(this.audioCtx.destination);
+        droneOsc.start();
+        
+        this.menuDroneOsc = droneOsc;
+        this.menuDroneGain = droneGain;
 
-        const playNote = () => {
+        // 2. Linha de Efeito de Delay (Eco Espacial / Reverb)
+        const delayNode = this.audioCtx.createDelay();
+        delayNode.delayTime.setValueAtTime(0.6, this.audioCtx.currentTime); // Eco a cada 600ms
+
+        const feedbackNode = this.audioCtx.createGain();
+        feedbackNode.gain.setValueAtTime(0.45, this.audioCtx.currentTime); // Eco decai 45% a cada repetição
+
+        // Conecta o loop de feedback do delay
+        delayNode.connect(feedbackNode);
+        feedbackNode.connect(delayNode);
+        delayNode.connect(this.audioCtx.destination);
+
+        this.menuDelayNode = delayNode;
+        this.menuFeedbackGain = feedbackNode;
+
+        // 3. Filtro passa-baixa (Lowpass Filter) para suavizar a melodia e dar textura cósmica/espacial
+        const filterNode = this.audioCtx.createBiquadFilter();
+        filterNode.type = 'lowpass';
+        filterNode.frequency.setValueAtTime(850, this.audioCtx.currentTime); // Corta agudos estridentes
+        filterNode.connect(this.audioCtx.destination);
+        filterNode.connect(delayNode); // Envia melodia filtrada também para o delay
+
+        // Melodia flutuante e espacial (Escala Pentatônica Menor de Lá)
+        const spaceMelody = [57, 60, 64, 67, 69, 72, 76, 72, 69, 67, 64, 60];
+        let noteIdx = 0;
+        const tempo = 800; // Andamento lento e atmosférico (800ms por nota)
+
+        const playSpaceNote = () => {
             if (!this.isPlayingMusic || this.isMuted) return;
             if (!document.getElementById('start-screen').classList.contains('active')) {
                 this.stopMenuMusic();
                 return;
             }
 
-            const currentChord = chords[chordIdx];
-            const noteIdx = pattern[patternIdx];
-            const midiNote = currentChord[noteIdx];
+            const midiNote = spaceMelody[noteIdx];
             const freq = 440 * Math.pow(2, (midiNote - 69) / 12);
 
             const osc = this.audioCtx.createOscillator();
             const noteGain = this.audioCtx.createGain();
 
-            osc.type = 'triangle'; // Onda suave retro chiptune
+            osc.type = 'triangle'; // Onda triangular suave de sintetizador analógico
             osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime);
 
+            // Ataque lento e liberação longa (Fades) para sensação de ausência de gravidade
             noteGain.gain.setValueAtTime(0, this.audioCtx.currentTime);
-            noteGain.gain.linearRampToValueAtTime(0.06, this.audioCtx.currentTime + 0.05); // Volume confortável baixo
-            noteGain.gain.exponentialRampToValueAtTime(0.0001, this.audioCtx.currentTime + 0.4);
+            noteGain.gain.linearRampToValueAtTime(0.045, this.audioCtx.currentTime + 0.15); // Ataque de 150ms
+            noteGain.gain.exponentialRampToValueAtTime(0.0001, this.audioCtx.currentTime + 0.7); // Release de 700ms
 
             osc.connect(noteGain);
-            noteGain.connect(this.audioCtx.destination);
+            noteGain.connect(filterNode);
             osc.start();
 
             setTimeout(() => {
@@ -177,18 +207,15 @@ const UI = {
                     osc.disconnect();
                     noteGain.disconnect();
                 } catch(e){}
-            }, 500);
+            }, 900);
 
-            patternIdx++;
-            if (patternIdx >= pattern.length) {
-                patternIdx = 0;
-                chordIdx = (chordIdx + 1) % chords.length;
-            }
+            // Avança para a próxima nota do espaço
+            noteIdx = (noteIdx + 1) % spaceMelody.length;
 
-            this.menuMusicTimeout = setTimeout(playNote, tempo);
+            this.menuMusicTimeout = setTimeout(playSpaceNote, tempo);
         };
 
-        playNote();
+        playSpaceNote();
     },
 
     stopMenuMusic() {
@@ -196,6 +223,26 @@ const UI = {
         if (this.menuMusicTimeout) {
             clearTimeout(this.menuMusicTimeout);
             this.menuMusicTimeout = null;
+        }
+        // Desconecta e limpa os osciladores e efeitos
+        if (this.menuDroneOsc) {
+            try {
+                this.menuDroneOsc.stop();
+                this.menuDroneOsc.disconnect();
+            } catch(e){}
+            this.menuDroneOsc = null;
+        }
+        if (this.menuDroneGain) {
+            try { this.menuDroneGain.disconnect(); } catch(e){}
+            this.menuDroneGain = null;
+        }
+        if (this.menuDelayNode) {
+            try { this.menuDelayNode.disconnect(); } catch(e){}
+            this.menuDelayNode = null;
+        }
+        if (this.menuFeedbackGain) {
+            try { this.menuFeedbackGain.disconnect(); } catch(e){}
+            this.menuFeedbackGain = null;
         }
     },
 
