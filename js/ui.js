@@ -213,6 +213,10 @@ const UI = {
             player.classList.add('is-unicorn');
         } else if (this.pieceSymbol === '👑') {
             player.classList.add('is-queen');
+        } else if (this.pieceSymbol === '🦖') {
+            player.classList.add('is-dino');
+        } else if (this.pieceSymbol === '👻') {
+            player.classList.add('is-ghost');
         }
         gridEl.appendChild(player);
         this.playerEl = player;
