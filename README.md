@@ -1,4 +1,4 @@
-# 🧮 Labirinto Matemático
+# Labirinto Matemático
 
 > Jogo educativo de labirinto com operações matemáticas — desenvolvido como parte de pesquisa de Mestrado.
 
@@ -12,22 +12,22 @@ O projeto integra **design moderno com tema espacial neon**, **mecânicas de cá
 
 ---
 
-## ✨ Funcionalidades
+##  Funcionalidades
 
-- 🗺️ **Labirinto gerado proceduralmente** a cada partida — nunca a mesma experiência duas vezes
-- ➕ **Operações matemáticas progressivas**: soma e subtração (Fácil), multiplicação e divisão (Médio), potenciação e radiciação (Difícil)
-- 🎯 **Valor-alvo visível na célula de chegada** — o jogador precisa acumular exatamente o valor do troféu `🏆`
-- ↩️ **Retrocesso inteligente** — voltar no labirinto desfaz automaticamente o último cálculo, sem precisar recalcular
-- 🔷 **Formas geométricas distintas por operador**: círculo, quadrado, losango, cápsula, escudo e hexágono — cada um com cor neon exclusiva
-- 🚀🦖👻 **Escolha de personagem**: Foguete, Dinossauro, Fantasma, Unicórnio ou Rainha, cada um com sua própria aura e animação de brilho neon customizadas
-- 🔢 **Modal de cálculo interativo** — o jogador precisa resolver a equação antes de avançar
-- ⏱️ **Cronômetro** com penalidade de +5 segundos a cada resposta errada
-- 🔊 **Efeitos sonoros** sintetizados via Web Audio API (acerto, erro, vitória)
-- 📱 **Suporte a gestos touch** — jogável em dispositivos móveis
+- **Labirinto gerado proceduralmente** a cada partida — nunca a mesma experiência duas vezes
+- **Operações matemáticas progressivas**: soma e subtração (Fácil), multiplicação e divisão (Médio), potenciação e radiciação (Difícil)
+- **Valor-alvo visível na célula de chegada** — o jogador precisa acumular exatamente o valor do troféu `🏆`
+- **Retrocesso inteligente** — voltar no labirinto desfaz automaticamente o último cálculo, sem precisar recalcular
+- **Formas geométricas distintas por operador**: círculo, quadrado, losango, cápsula, escudo e hexágono — cada um com cor neon exclusiva
+- **Escolha de personagem**: Foguete, Dinossauro, Fantasma, Unicórnio ou Rainha, cada um com sua própria aura e animação de brilho neon customizadas
+- **Modal de cálculo interativo** — o jogador precisa resolver a equação antes de avançar
+- **Cronômetro** com penalidade de +5 segundos a cada resposta errada
+- **Efeitos sonoros** sintetizados via Web Audio API (acerto, erro, vitória)
+- **Suporte a gestos touch** — jogável em dispositivos móveis
 
 ---
 
-## 📸 Visual
+## Visual
 
 | Tela Inicial | Labirinto em Jogo |
 |:---:|:---:|
@@ -35,7 +35,7 @@ O projeto integra **design moderno com tema espacial neon**, **mecânicas de cá
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 | Tecnologia | Uso |
 |---|---|
@@ -47,7 +47,7 @@ O projeto integra **design moderno com tema espacial neon**, **mecânicas de cá
 
 ---
 
-## 🚀 Como Executar
+## Como Executar
 
 Não requer instalação nem servidor. Basta clonar e abrir o arquivo:
 
@@ -61,7 +61,7 @@ cd labirinto-matematico
 
 ---
 
-## 🎯 Regras do Jogo
+## Regras do Jogo
 
 1. Escolha o **valor inicial**, a **dificuldade** e o **personagem**.
 2. Navegue pelo labirinto usando as **setas do teclado** ou **gestos de deslize** no celular.
@@ -72,7 +72,7 @@ cd labirinto-matematico
 
 ---
 
-## 📐 Arquitetura
+## Arquitetura
 
 ```
 labirinto-matematico/
@@ -88,12 +88,12 @@ labirinto-matematico/
 
 ---
 
-## 🎓 Contexto Acadêmico
+## Contexto Acadêmico
 
 Este jogo foi desenvolvido como parte de pesquisa de **Mestrado**, com o objetivo de estudar o impacto de jogos digitais educativos no aprendizado de matemática. A mecânica central é inspirada em passatempos matemáticos de labirinto presentes em literatura pedagógica impressa, adaptada para o ambiente digital com maior interatividade, feedback imediato e progressão de dificuldade.
 
 ---
 
-## 📄 Licença
+## Licença
 
 Este projeto é de uso acadêmico. Consulte o autor para permissões de uso e distribuição.
