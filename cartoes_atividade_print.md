@@ -8,7 +8,7 @@ Este caderno de atividades foi desenhado para estudantes do 3° ano do Ensino M�
 
 Abaixo está o modelo visual gerado com fundo branco, linhas pretas e ilustrações em contorno (line art). Perfeito para economizar toner na escola e garantir legibilidade máxima:
 
-![Mockup Preto e Branco](file:///C:/Users/thiag/.gemini/antigravity/brain/0b859a65-9c0d-4a7b-bed5-fe3709043216/cartao_atividade_pb_1785178522682.png)
+![Mockup Preto e Branco](/Users/thiag/.gemini/antigravity/brain/0b859a65-9c0d-4a7b-bed5-fe3709043216/cartao_atividade_pb_pt_1785178812061.png)
 
 ---
 
