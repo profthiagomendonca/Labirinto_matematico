@@ -119,7 +119,20 @@ const MazeGen = {
 
                 // Se não tem valor (beco), gera um operador
                 if (grid[opCoord.r][opCoord.c].value === null) {
-                    grid[opCoord.r][opCoord.c].value = Equations.generateValidOpSymbol(val, difficulty);
+                    const forbiddenOps = [];
+                    const opNeighbors = this.getOpenNeighbors(grid, opCoord.r, opCoord.c);
+                    let hasIncompatibleNeighbor = false;
+                    for (let n of opNeighbors) {
+                        const neighborCell = grid[n.r][n.c];
+                        if (neighborCell.value !== null && neighborCell.value !== 2 && neighborCell.value !== 3) {
+                            hasIncompatibleNeighbor = true;
+                            break;
+                        }
+                    }
+                    if (hasIncompatibleNeighbor) {
+                        forbiddenOps.push('^', '√');
+                    }
+                    grid[opCoord.r][opCoord.c].value = Equations.generateValidOpSymbolFiltered(val, difficulty, forbiddenOps);
                 }
                 const op = grid[opCoord.r][opCoord.c].value;
 
@@ -144,6 +157,36 @@ const MazeGen = {
 
         // Adiciona Armadilhas nas células de número que não estão no caminho principal
         this.addTraps(grid, rows, cols, difficulty, mainPath);
+
+        // Pós-processamento para garantir limites consistentes em operandos de potenciação e radiciação em caminhos alternativos
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const cell = grid[r][c];
+                if (cell.type === 'operator') {
+                    if (cell.value === '^') {
+                        const neighbors = this.getOpenNeighbors(grid, r, c);
+                        for (let numCoord of neighbors) {
+                            const numCell = grid[numCoord.r][numCoord.c];
+                            if ((numCell.type === 'number' || numCell.type === 'end') && !numCell.isPath) {
+                                if (numCell.value !== 2 && numCell.value !== 3) {
+                                    numCell.value = Math.random() < 0.5 ? 2 : 3;
+                                }
+                            }
+                        }
+                    } else if (cell.value === '√') {
+                        const neighbors = this.getOpenNeighbors(grid, r, c);
+                        for (let numCoord of neighbors) {
+                            const numCell = grid[numCoord.r][numCoord.c];
+                            if ((numCell.type === 'number' || numCell.type === 'end') && !numCell.isPath) {
+                                if (numCell.value !== 2 && numCell.value !== 3) {
+                                    numCell.value = 2; // √ padrão é raiz quadrada
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         // O usuário deu a excelente ideia de usar '=' antes do troféu final
         // Modifica qualquer operador que tenha acesso direto ao troféu para ser um sinal de igual

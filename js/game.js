@@ -193,6 +193,8 @@ const Game = {
                 const isCube = Math.cbrt(this.currentValue) % 1 === 0;
                 if (!isSquare && !isCube) {
                     this.pendingOperator = Math.random() < 0.5 ? '+' : '-';
+                    nextCell.value = this.pendingOperator; // Atualiza permanentemente no grid
+                    UI.updateCellOperator(nr, nc, this.pendingOperator); // Atualiza visualmente na UI
                 }
             }
 

@@ -68,6 +68,21 @@ const Equations = {
         return ops[Math.floor(Math.random() * ops.length)];
     },
 
+    // Filtra símbolos de operadores proibidos
+    generateValidOpSymbolFiltered(currentValue, difficulty, forbiddenOps = []) {
+        let op = this.generateValidOpSymbol(currentValue, difficulty);
+        let attempts = 0;
+        while (forbiddenOps.includes(op) && attempts < 20) {
+            op = this.generateValidOpSymbol(currentValue, difficulty);
+            attempts++;
+        }
+        if (forbiddenOps.includes(op)) {
+            // Fallback caso todos os possíveis operadores sejam proibidos
+            return Math.random() < 0.5 ? '+' : '-';
+        }
+        return op;
+    },
+
     // Gera um operando (número) compatível com o operador e o valor atual
     generateValidOperand(currentValue, op, difficulty) {
         if (op === '+') {
@@ -95,7 +110,7 @@ const Equations = {
         }
         if (op === '^') {
             if (difficulty === 'hard') return 2;
-            if (difficulty === 'hardest') return 3;
+            if (difficulty === 'hardest') return Math.random() < 0.5 ? 2 : 3;
             if (currentValue <= 4) return Math.random() < 0.5 ? 2 : 3;
             return 2;
         }

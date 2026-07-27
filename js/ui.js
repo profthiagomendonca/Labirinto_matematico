@@ -240,6 +240,27 @@ const UI = {
         }
     },
 
+    updateCellOperator(r, c, op) {
+        const cellEl = document.getElementById(`cell-${r}-${c}`);
+        if (!cellEl) return;
+
+        // Limpa classes de operadores anteriores
+        cellEl.classList.remove('op-add', 'op-sub', 'op-mul', 'op-div', 'op-pow', 'op-sqrt', 'op-pct', 'op-eq');
+
+        cellEl.innerText = op;
+        if (op === '+') cellEl.classList.add('op-add');
+        else if (op === '-') cellEl.classList.add('op-sub');
+        else if (op === '×' || op === '*' || op === 'x') {
+            cellEl.classList.add('op-mul');
+            cellEl.innerText = '';
+        }
+        else if (op === '÷' || op === '/') cellEl.classList.add('op-div');
+        else if (op === '^') cellEl.classList.add('op-pow');
+        else if (op === '√') cellEl.classList.add('op-sqrt');
+        else if (op === '%') cellEl.classList.add('op-pct');
+        else if (op === '=') cellEl.classList.add('op-eq');
+    },
+
     animateWrongMove() {
         this.container.classList.add('shake');
         setTimeout(() => this.container.classList.remove('shake'), 300);

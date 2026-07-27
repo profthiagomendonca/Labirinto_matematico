@@ -1,0 +1,19 @@
+[build]
+  # Cria a pasta de produção limpa, copiando apenas os arquivos necessários para a web
+  command = "mkdir -p dist && cp index.html style.css dist/ && cp -r js dist/ && (cp -r imagens dist/ || true)"
+  publish = "dist"
+
+# Configurações de cabeçalhos HTTP para otimizar performance e segurança
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Evita cache persistente para o arquivo HTML principal
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
